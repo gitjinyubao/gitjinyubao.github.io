@@ -132,18 +132,20 @@
 
 
 
-  <meta name="description" content="生活源于奋斗">
+  <meta name="description" content="今天继续坑系列，高可用已经讲过了，当前互联网时代，怎么少的了高并发呢？高并发和高可用一样， 已经变成各个系统的标配了，如果你的系统QPS没有个大几千上万，都不好意思跟人打招呼，虽然可能每天的调用量不超过100。    高并发这个词，我个人感觉是从电商领域开始往外流传的，特别是电商领域双11那种藐视全球的流量，再把技术架构出来分享一把，现在搞得全互联网都在说高并发，而且你注意回忆一下所有你看">
 <meta name="keywords" content="技术">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test">
-<meta property="og:url" content="https://www.zengmanhua.cn/2019/05/18/test/index.html">
+<meta property="og:title" content="坑系列 —— 缓存 + 哈希 = 高并发">
+<meta property="og:url" content="https://www.zengmanhua.cn/2019/05/18/坑系列-——-缓存-哈希-高并发/index.html">
 <meta property="og:site_name" content="JinYuBao">
-<meta property="og:description" content="生活源于奋斗">
+<meta property="og:description" content="今天继续坑系列，高可用已经讲过了，当前互联网时代，怎么少的了高并发呢？高并发和高可用一样， 已经变成各个系统的标配了，如果你的系统QPS没有个大几千上万，都不好意思跟人打招呼，虽然可能每天的调用量不超过100。    高并发这个词，我个人感觉是从电商领域开始往外流传的，特别是电商领域双11那种藐视全球的流量，再把技术架构出来分享一把，现在搞得全互联网都在说高并发，而且你注意回忆一下所有你看">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-18T08:33:31.142Z">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0518/181337_6bee08f1_1728187.jpeg">
+<meta property="og:updated_time" content="2019-05-18T10:14:03.804Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test">
-<meta name="twitter:description" content="生活源于奋斗">
+<meta name="twitter:title" content="坑系列 —— 缓存 + 哈希 = 高并发">
+<meta name="twitter:description" content="今天继续坑系列，高可用已经讲过了，当前互联网时代，怎么少的了高并发呢？高并发和高可用一样， 已经变成各个系统的标配了，如果你的系统QPS没有个大几千上万，都不好意思跟人打招呼，虽然可能每天的调用量不超过100。    高并发这个词，我个人感觉是从电商领域开始往外流传的，特别是电商领域双11那种藐视全球的流量，再把技术架构出来分享一把，现在搞得全互联网都在说高并发，而且你注意回忆一下所有你看">
+<meta name="twitter:image" content="https://images.gitee.com/uploads/images/2019/0518/181337_6bee08f1_1728187.jpeg">
 
 
 
@@ -153,7 +155,7 @@
 
   
   
-  <link rel="canonical" href="https://www.zengmanhua.cn/2019/05/18/test/">
+  <link rel="canonical" href="https://www.zengmanhua.cn/2019/05/18/坑系列-——-缓存-哈希-高并发/">
 
 
 
@@ -163,7 +165,7 @@
   };
 </script>
 
-  <title>test | JinYuBao</title>
+  <title>坑系列 —— 缓存 + 哈希 = 高并发 | JinYuBao</title>
   
 
 
@@ -456,7 +458,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.zengmanhua.cn/2019/05/18/test/">
+    <link itemprop="mainEntityOfPage" href="https://www.zengmanhua.cn/2019/05/18/坑系列-——-缓存-哈希-高并发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jin Yu Bao">
@@ -473,7 +475,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">test
+          <h1 class="post-title" itemprop="name headline">坑系列 —— 缓存 + 哈希 = 高并发
 
               
             
@@ -499,7 +501,7 @@
                 
               
 
-              <time title="创建时间：2019-05-18 15:13:13" itemprop="dateCreated datePublished" datetime="2019-05-18T15:13:13+08:00">2019-05-18</time>
+              <time title="创建时间：2019-05-18 18:09:45" itemprop="dateCreated datePublished" datetime="2019-05-18T18:09:45+08:00">2019-05-18</time>
             
 
             
@@ -536,8 +538,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/05/18/test/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/18/test/" itemprop="commentCount"></span>
+                <a href="/2019/05/18/坑系列-——-缓存-哈希-高并发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/18/坑系列-——-缓存-哈希-高并发/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -572,7 +574,15 @@
       
 
       
-        
+        <p><img src="https://images.gitee.com/uploads/images/2019/0518/181337_6bee08f1_1728187.jpeg" alt="输入图片说明" title="12.jpg"><br>    今天继续坑系列，高可用已经讲过了，当前互联网时代，怎么少的了高并发呢？高并发和高可用一样， 已经变成各个系统的标配了，如果你的系统QPS没有个大几千上万，都不好意思跟人打招呼，虽然可能每天的调用量不超过100。<br>    高并发这个词，我个人感觉是从电商领域开始往外流传的，特别是电商领域双11那种藐视全球的流量，再把技术架构出来分享一把，现在搞得全互联网都在说高并发，而且你注意回忆一下所有你看到的高并发系统，往往都逃不开一个核心概念，那就是缓存+哈希，一切都是以这个概念和基础的，仿佛这就是高并发的核心技术了。<br>`   <a id="more"></a></p>
+<h4 id="我们看到的高并发技术"><a href="#我们看到的高并发技术" class="headerlink" title="我们看到的高并发技术"></a>我们看到的高并发技术</h4><pre><code>围绕这个核心技术，通常我们看到的各种高并发的架构系统，在博客，论坛，现场分享出来的高并发系统，都跑不出以下几个方面的东西。
+</code></pre><p>资源静态化</p>
+<pre><code>就是那种单个页面流量巨大无比，每秒的QPS几十万上百万的系统，确实并发高的系统，核心解决方案就是静态化，靠机器和带宽去抗，假如没有CDN的话，所有流量都落到同一个IP下面的话，基本上也就是用Nginx的文件静态化了，单机的承受能力主要取决于带宽和单机的性能，要再多的话，那就LVS(或者F5)+集群了，这种的典型场景就是搞活动时候的首页，活动页面了，还有就是引流搜索引擎的着陆页了，一般都是现成的图片和文字静态化，当然，这种还有很多前端的技巧和技术了，这一点我不是很了解，就不得瑟了，就中后台来说，大部分情况下直接Nginx搞定了，核心还是使用了缓存技术。
+</code></pre><h4 id="读写分离和分库分表"><a href="#读写分离和分库分表" class="headerlink" title="读写分离和分库分表"></a>读写分离和分库分表</h4><pre><code>读写分离是大家看到的第二个高并发的架构了，也很常规，因为一般情况下读比写要多得多，所以数据库的主库写，从库们提供读操作，一下就把数据库的并发性能提高了。
+</code></pre><p>如果还不够，那么分库分表把，把数据分到各个数据库的各个机器上，进一步的减少单台机器的压力，从而达到高并发的目的。<br>如果是分库分表，有时候使用的就是哈希技术了，以某个字段哈希一下然后来分库分表，读写分离的读操作，基本也是通过哈希技术把读落到不同的机器上去减轻单机压力。</p>
+<h4 id="万能的缓存"><a href="#万能的缓存" class="headerlink" title="万能的缓存"></a>万能的缓存</h4><pre><code>说到高并发，不得不说缓存了，现在各种缓存的工具也很多也很成熟，memcache,redis之类的KV数据库作为缓存已经非常成熟了，而且基本上都可以集群化部署，操作起来也很简单，简直变成了一个高并发的代言词了，核心就是缓存技术了，而memcache和redis只是用来实现这个缓存技术的工具而已。
+</code></pre><h4 id="无敌的哈希"><a href="#无敌的哈希" class="headerlink" title="无敌的哈希"></a>无敌的哈希</h4><pre><code>但凡大数据处理，高并发系统，必言哈希，随机插入，时间复杂度O(1)，随便查询，时间复杂度O(1)，除了耗费点空间以外，几乎没什么缺点了，在现在这个内存廉价的时代，哈希表变成了一个高并发系统的标配。
+</code></pre>
       
     </div>
 
@@ -697,8 +707,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/18/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2019/05/18/时光荏苒，蹉跎了谁的年华/" rel="next" title="时光荏苒，蹉跎了谁的年华">
+                <i class="fa fa-chevron-left"></i> 时光荏苒，蹉跎了谁的年华
               </a>
             
           </div>
@@ -706,10 +716,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/18/word/" rel="prev" title="word">
-                word <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -757,8 +763,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -953,6 +968,23 @@ show_date_time();
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们看到的高并发技术"><span class="nav-number">1.</span> <span class="nav-text">我们看到的高并发技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读写分离和分库分表"><span class="nav-number">2.</span> <span class="nav-text">读写分离和分库分表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#万能的缓存"><span class="nav-number">3.</span> <span class="nav-text">万能的缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无敌的哈希"><span class="nav-number">4.</span> <span class="nav-text">无敌的哈希</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
