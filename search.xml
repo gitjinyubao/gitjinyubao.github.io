@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[test]]></title>
+    <url>%2F2019%2F05%2F18%2Ftest%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F05%2F18%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[basic footnote1here is an inline footnote2and another one3and another one4 1.basic footnote content ↩2.inline footnote ↩3.paragraphfootnotecontent ↩4.footnote content with some markdown ↩]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+</search>
