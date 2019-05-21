@@ -1898,7 +1898,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #d7ffb0;
+  background: #ffeb28;
 }
 .feed-link,
 .chat {
@@ -3130,5 +3130,5 @@ body {
   visibility: hidden;
 }
 .social_share {
-  margin-top: 60px;
+  margin-top: 20px;
 }
