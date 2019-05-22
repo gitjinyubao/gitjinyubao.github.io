@@ -135,7 +135,7 @@
 
 
   <meta name="description" content="前言一提到线程安全的并发计数器，AtomicLong 必然是第一个被联想到的工具。Atomic* 一系列的原子类以及它们背后的 CAS 无锁算法，常常是高性能，高并发的代名词。本文将会阐释，在并发场景下，使用 AtomicLong 来充当并发计数器将会是一个糟糕的设计，实际上存在不少 AtomicLong 之外的计数器方案。近期我研究了一些 Jdk1.8 以及 JCTools 的优化方案，并将它">
-<meta name="keywords" content="life,java,centos,technology,Internet,movie,read">
+<meta name="keywords" content="java并发系统学习番外篇">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java并发计数器分析">
 <meta property="og:url" content="https://www.zengmanhua.cn/2019/05/22/java并发计数器分析/index.html">
@@ -145,7 +145,7 @@
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/beautiyful.jpg">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/ConcurrentAutoTable%20.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/test.png">
-<meta property="og:updated_time" content="2019-05-22T11:57:05.777Z">
+<meta property="og:updated_time" content="2019-05-22T11:59:31.774Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发计数器分析">
 <meta name="twitter:description" content="前言一提到线程安全的并发计数器，AtomicLong 必然是第一个被联想到的工具。Atomic* 一系列的原子类以及它们背后的 CAS 无锁算法，常常是高性能，高并发的代名词。本文将会阐释，在并发场景下，使用 AtomicLong 来充当并发计数器将会是一个糟糕的设计，实际上存在不少 AtomicLong 之外的计数器方案。近期我研究了一些 Jdk1.8 以及 JCTools 的优化方案，并将它">
@@ -563,6 +563,24 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -722,6 +740,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java并发系统学习番外篇/" rel="tag"><i class="fa fa-tag"></i> java并发系统学习番外篇</a>
+          
+        </div>
       
 
       
@@ -921,7 +945,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
