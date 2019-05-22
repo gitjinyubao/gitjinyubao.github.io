@@ -145,7 +145,7 @@
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/beautiyful.jpg">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/ConcurrentAutoTable%20.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/test.png">
-<meta property="og:updated_time" content="2019-05-22T11:59:31.774Z">
+<meta property="og:updated_time" content="2019-05-22T12:02:07.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发计数器分析">
 <meta name="twitter:description" content="前言一提到线程安全的并发计数器，AtomicLong 必然是第一个被联想到的工具。Atomic* 一系列的原子类以及它们背后的 CAS 无锁算法，常常是高性能，高并发的代名词。本文将会阐释，在并发场景下，使用 AtomicLong 来充当并发计数器将会是一个糟糕的设计，实际上存在不少 AtomicLong 之外的计数器方案。近期我研究了一些 Jdk1.8 以及 JCTools 的优化方案，并将它">
@@ -631,11 +631,10 @@
       
         <p><img src="http://prl6c63q7.bkt.clouddn.com/beautiyful.jpg" alt></p>
 <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><pre><code>一提到线程安全的并发计数器，AtomicLong 必然是第一个被联想到的工具。Atomic* 一系列的原子类以及它们背后的 CAS 无锁算法，常常是高性能，高并发的代名词。本文将会阐释，在并发场景下，使用 AtomicLong 来充当并发计数器将会是一个糟糕的设计，实际上存在不少 AtomicLong 之外的计数器方案。近期我研究了一些 Jdk1.8 以及 JCTools 的优化方案，并将它们的对比与实现细节整理于此。
-</code></pre><h4 id="AtomicLong-的前世今生"><a href="#AtomicLong-的前世今生" class="headerlink" title="AtomicLong 的前世今生"></a>AtomicLong 的前世今生</h4><pre><code>在 Java 中，Atomic* 是高效的，这得益于 sun.misc.Unsafe 提供的一系列底层 API，使得 Java 这样的高级语言能够直接和硬件层面的 CPU 指令打交道。并且在 Jdk1.7 中，这样的底层指令可以配合 CAS 操作，达到 Lock-Free。
+</code></pre><a id="more"></a>
+<h4 id="AtomicLong-的前世今生"><a href="#AtomicLong-的前世今生" class="headerlink" title="AtomicLong 的前世今生"></a>AtomicLong 的前世今生</h4><pre><code>在 Java 中，Atomic* 是高效的，这得益于 sun.misc.Unsafe 提供的一系列底层 API，使得 Java 这样的高级语言能够直接和硬件层面的 CPU 指令打交道。并且在 Jdk1.7 中，这样的底层指令可以配合 CAS 操作，达到 Lock-Free。
 
 在 Jdk1.7 中，AtomicLong 的关键代码如下：
-
-&lt;!-- more --&gt;
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public final long getAndIncrement() &#123;</span><br><span class="line">    while (true) &#123;</span><br><span class="line">        long current = get();</span><br><span class="line">        long next = current + 1;</span><br><span class="line">        if (compareAndSet(current, next))</span><br><span class="line">            return current;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public final boolean compareAndSet(long expect, long update) &#123;</span><br><span class="line">    return unsafe.compareAndSwapLong(this, valueOffset, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <pre><code>1. get() 方法 volatile 读当前 long 值
 2. 自增
