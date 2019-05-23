@@ -152,7 +152,7 @@
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b10.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b11.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b12.png">
-<meta property="og:updated_time" content="2019-05-23T08:55:06.259Z">
+<meta property="og:updated_time" content="2019-05-23T09:28:00.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CPU缓存一致性协议MESI">
 <meta name="twitter:description" content="CPU高速缓存（Cache Memory）CPU为何要有高速缓存CPU在摩尔定律的指导下以每18个月翻一番的速度在发展，然而内存和硬盘的发展速度远远不及CPU。这就造成了高性能能的内存和硬盘价格及其昂贵。然而CPU的高度运算需要高速的数据。为了解决这个问题，CPU厂商在CPU中内置了少量的高速缓存以解决I\O速度和CPU运算速度之间的不匹配问题。">
@@ -675,6 +675,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void executedOnCpu0() &#123;</span><br><span class="line">    value = 10;</span><br><span class="line">    //在更新数据之前必须将所有存储缓存（store buffer）中的指令执行完毕。</span><br><span class="line">    storeMemoryBarrier();</span><br><span class="line">    finished = true;</span><br><span class="line">&#125;</span><br><span class="line">void executedOnCpu1() &#123;</span><br><span class="line">    while(!finished);</span><br><span class="line">    //在读取之前将所有失效队列中关于该数据的指令执行完毕。</span><br><span class="line">    loadMemoryBarrier();</span><br><span class="line">    assert value == 10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>现在确实安全了。完美无暇！</p>
 <h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>然而，对于程序员来说简直是一个灾难。不想和平台耦合我们要跨平台。Write One,Run Everywhere!<br>幸好java解决了这个问题，至于如何解决的请关注JMM(JavaMemoryMode)与物理内存相爱相杀。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">来源： https://www.cnblogs.com/yanlong300/p/8986041.html</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -803,6 +804,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/05/23/并发编程之线程安全性、安全发布对象/" rel="prev" title="并发编程之线程安全性、安全发布对象">
+                并发编程之线程安全性、安全发布对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -878,7 +883,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
