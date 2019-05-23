@@ -143,16 +143,16 @@
 <meta property="og:description" content="CPU高速缓存（Cache Memory）CPU为何要有高速缓存CPU在摩尔定律的指导下以每18个月翻一番的速度在发展，然而内存和硬盘的发展速度远远不及CPU。这就造成了高性能能的内存和硬盘价格及其昂贵。然而CPU的高度运算需要高速的数据。为了解决这个问题，CPU厂商在CPU中内置了少量的高速缓存以解决I\O速度和CPU运算速度之间的不匹配问题。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p3.jpg">
-<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/114439_c89709a9_1728187.png">
-<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/114554_92a5b80d_1728187.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162310300-647146146.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162457455-1411867425.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b1.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b2.png">
-<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/161249_cfde8a09_1728187.png">
-<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/161358_b45238e1_1728187.png">
-<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/161511_4e6cb342_1728187.png">
-<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/162516_98cb4bec_1728187.png">
-<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/162545_d19aa7ae_1728187.png">
-<meta property="og:updated_time" content="2019-05-23T08:32:13.316Z">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162549299-994420333.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162602668-681441242.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162619534-683579600.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162633779-1465275811.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162644640-382839091.png">
+<meta property="og:updated_time" content="2019-05-23T08:37:46.019Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CPU缓存一致性协议MESI">
 <meta name="twitter:description" content="CPU高速缓存（Cache Memory）CPU为何要有高速缓存CPU在摩尔定律的指导下以每18个月翻一番的速度在发展，然而内存和硬盘的发展速度远远不及CPU。这就造成了高性能能的内存和硬盘价格及其昂贵。然而CPU的高度运算需要高速的数据。为了解决这个问题，CPU厂商在CPU中内置了少量的高速缓存以解决I\O速度和CPU运算速度之间的不匹配问题。">
@@ -654,9 +654,9 @@
 <li><p>高速缓存中的数据写回主内存</p>
 </li>
 </ol>
-<p><img src="https://images.gitee.com/uploads/images/2019/0523/114439_c89709a9_1728187.png" alt="输入图片说明"></p>
+<p><img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162310300-647146146.png" alt></p>
 <h4 id="目前流行的多级缓存结构"><a href="#目前流行的多级缓存结构" class="headerlink" title="目前流行的多级缓存结构"></a>目前流行的多级缓存结构</h4><p>由于CPU的运算速度超越了1级缓存的数据I\O能力，CPU厂商又引入了多级的缓存结构。</p>
-<p>多级缓存结构<br><img src="https://images.gitee.com/uploads/images/2019/0523/114554_92a5b80d_1728187.png" alt="输入图片说明"></p>
+<p>多级缓存结构<br><img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162457455-1411867425.png" alt></p>
 <h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><p>多核CPU的情况下有多个一级缓存，如何保证缓存内部数据的一致,不让系统数据混乱。这里就引出了一个一致性的协议MESI。</p>
 <h4 id="MESI协议缓存状态"><a href="#MESI协议缓存状态" class="headerlink" title="MESI协议缓存状态"></a>MESI协议缓存状态</h4><p>MESI 是指4中状态的首字母。每个Cache line有4个状态，可用2个bit表示，它们分别是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">缓存行（Cache line）:缓存存储数据的单元。</span><br></pre></td></tr></table></figure>
@@ -673,16 +673,16 @@
 <p>举个栗子来说：</p>
 <p>假设cache 1 中有一个变量x = 0的cache line 处于S状态(共享)。<br>那么其他拥有x变量的cache 2、cache 3等x的cache line调整为S状态（共享）或者调整为 I 状态（无效）。</p>
 <h4 id="多核缓存协同操作"><a href="#多核缓存协同操作" class="headerlink" title="多核缓存协同操作"></a>多核缓存协同操作</h4><p>假设有三个CPU A、B、C，对应三个缓存分别是cache a、b、 c。在主内存中定义了x的引用值为0。</p>
-<p><img src="https://images.gitee.com/uploads/images/2019/0523/161249_cfde8a09_1728187.png" alt="输入图片说明"></p>
+<p><img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162549299-994420333.png" alt></p>
 <h5 id="单核读取"><a href="#单核读取" class="headerlink" title="单核读取"></a>单核读取</h5><p>那么执行流程是：<br>CPU A发出了一条指令，从主内存中读取x。<br>从主内存通过bus读取到缓存中（远端读取Remote read）,这是该Cache line修改为E状态（独享）.</p>
-<p><img src="https://images.gitee.com/uploads/images/2019/0523/161358_b45238e1_1728187.png" alt></p>
+<p><img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162602668-681441242.png" alt></p>
 <h5 id="双核读取"><a href="#双核读取" class="headerlink" title="双核读取"></a>双核读取</h5><p>那么执行流程是：<br>CPU A发出了一条指令，从主内存中读取x。<br>CPU A从主内存通过bus读取到 cache a中并将该cache line 设置为E状态。<br>CPU B发出了一条指令，从主内存中读取x。<br>CPU B试图从主内存中读取x时，CPU A检测到了地址冲突。这时CPU A对相关数据做出响应。此时x 存储于cache a和cache b中，x在chche a和cache b中都被设置为S状态(共享)。</p>
-<p><img src="https://images.gitee.com/uploads/images/2019/0523/161511_4e6cb342_1728187.png" alt></p>
+<p><img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162619534-683579600.png" alt></p>
 <h5 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h5><p>那么执行流程是：<br>CPU A 计算完成后发指令需要修改x.<br>CPU A 将x设置为M状态（修改）并通知缓存了x的CPU B, CPU B将本地cache b中的x设置为I状态(无效)<br>CPU A 对x进行赋值。</p>
-<p><img src="https://images.gitee.com/uploads/images/2019/0523/162516_98cb4bec_1728187.png" alt></p>
+<p><img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162633779-1465275811.png" alt></p>
 <h5 id="同步数据"><a href="#同步数据" class="headerlink" title="同步数据"></a>同步数据</h5><p>那么执行流程是：</p>
 <p>CPU B 发出了要读取x的指令。<br>CPU B 通知CPU A,CPU A将修改后的数据同步到主内存时cache a 修改为E（独享）<br>CPU A同步CPU B的x,将cache a和同步后cache b中的x设置为S状态（共享）。</p>
-<p><img src="https://images.gitee.com/uploads/images/2019/0523/162545_d19aa7ae_1728187.png" alt="输入图片说明"></p>
+<p><img src="https://images2018.cnblogs.com/blog/1195582/201805/1195582-20180503162644640-382839091.png" alt="输入图片说明"></p>
 <h3 id="MESI优化和他们引入的问题"><a href="#MESI优化和他们引入的问题" class="headerlink" title="MESI优化和他们引入的问题"></a>MESI优化和他们引入的问题</h3><p>缓存的一致性消息传递是要时间的，这就使其切换时会产生延迟。当一个缓存被切换状态时其他缓存收到消息完成各自的切换并且发出回应消息这么一长串的时间中CPU都会等待所有缓存响应完成。可能出现的阻塞都会导致各种各样的性能问题和稳定性问题。</p>
 <h4 id="CPU切换状态阻塞解决-存储缓存（Store-Bufferes）"><a href="#CPU切换状态阻塞解决-存储缓存（Store-Bufferes）" class="headerlink" title="CPU切换状态阻塞解决-存储缓存（Store Bufferes）"></a>CPU切换状态阻塞解决-存储缓存（Store Bufferes）</h4><p>比如你需要修改本地缓存中的一条信息，那么你必须将I（无效）状态通知到其他拥有该缓存数据的CPU缓存中，并且等待确认。等待确认的过程会阻塞处理器，这会降低处理器的性能。应为这个等待远远比一个指令的执行时间长的多。</p>
 <h5 id="Store-Bufferes"><a href="#Store-Bufferes" class="headerlink" title="Store Bufferes"></a>Store Bufferes</h5><p>为了避免这种CPU运算能力的浪费，Store Bufferes被引入使用。处理器把它想要写入到主存的值写到缓存，然后继续去处理其他事情。当所有失效确认（Invalidate Acknowledge）都接收到时，数据才会最终被提交。<br>这么做有两个风险</p>
