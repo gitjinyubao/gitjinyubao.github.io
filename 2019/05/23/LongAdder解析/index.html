@@ -134,24 +134,24 @@
 
 
 
-  <meta name="description" content="title: LongAdder解析tags: [java并发系统学习番外篇]top: 202comments: truedate: 2019-05-23 08:01:56 categories: 技术LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适">
-<meta name="keywords" content="life,java,centos,technology,Internet,movie,read">
+  <meta name="description" content="LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适合写多读少的并发情景。今天，我们就研究一下`LongAdder`的原理，探究一下它如此高效的原因。">
+<meta name="keywords" content="java并发系统学习番外篇">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JinYuBao">
+<meta property="og:title" content="LongAdder解析">
 <meta property="og:url" content="https://www.zengmanhua.cn/2019/05/23/LongAdder解析/index.html">
 <meta property="og:site_name" content="JinYuBao">
-<meta property="og:description" content="title: LongAdder解析tags: [java并发系统学习番外篇]top: 202comments: truedate: 2019-05-23 08:01:56 categories: 技术LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适">
+<meta property="og:description" content="LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适合写多读少的并发情景。今天，我们就研究一下`LongAdder`的原理，探究一下它如此高效的原因。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p1.jpg">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/081419_6c4fdc02_1728187.jpeg">
 <meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/074538_6154a8cf_1728187.png">
 <meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/074837_29dc2078_1728187.png">
 <meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/074946_a12a6605_1728187.png">
 <meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/075028_9cdebffc_1728187.png">
-<meta property="og:updated_time" content="2019-05-23T00:11:37.582Z">
+<meta property="og:updated_time" content="2019-05-23T00:17:08.227Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JinYuBao">
-<meta name="twitter:description" content="title: LongAdder解析tags: [java并发系统学习番外篇]top: 202comments: truedate: 2019-05-23 08:01:56 categories: 技术LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适">
-<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/p1.jpg">
+<meta name="twitter:title" content="LongAdder解析">
+<meta name="twitter:description" content="LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适合写多读少的并发情景。今天，我们就研究一下`LongAdder`的原理，探究一下它如此高效的原因。">
+<meta name="twitter:image" content="https://images.gitee.com/uploads/images/2019/0523/081419_6c4fdc02_1728187.jpeg">
 
 
 
@@ -171,7 +171,7 @@
   };
 </script>
 
-  <title> | JinYuBao</title>
+  <title>LongAdder解析 | JinYuBao</title>
   
 
 
@@ -532,7 +532,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">LongAdder解析
 
               
             
@@ -558,12 +558,30 @@
                 
               
 
-              <time title="创建时间：2019-05-23 08:01:56" itemprop="dateCreated datePublished" datetime="2019-05-23T08:01:56+08:00">2019-05-23</time>
+              <time title="创建时间：2019-05-23 08:14:41" itemprop="dateCreated datePublished" datetime="2019-05-23T08:14:41+08:00">2019-05-23</time>
             
 
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -613,9 +631,7 @@
       
 
       
-        <hr>
-<p>title: LongAdder解析<br>tags: [java并发系统学习番外篇]<br>top: 202<br>comments: true<br>date: 2019-05-23 08:01:56</p>
-<h2 id="categories-技术"><a href="#categories-技术" class="headerlink" title="categories: 技术"></a>categories: 技术</h2><h3 id="LongAdder解析"><a href="#LongAdder解析" class="headerlink" title="LongAdder解析"></a>LongAdder解析</h3><p><img src="http://prl6c63q7.bkt.clouddn.com/p1.jpg" alt="输入图片说明" title="在这里输入图片标题"></p>
+        <h3 id="LongAdder解析"><a href="#LongAdder解析" class="headerlink" title="LongAdder解析"></a>LongAdder解析</h3><p><img src="https://images.gitee.com/uploads/images/2019/0523/081419_6c4fdc02_1728187.jpeg" alt="输入图片说明" title="在这里输入图片标题"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适合写多读少的并发情景。今天，我们就研究一下`LongAdder`的原理，探究一下它如此高效的原因。</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>对LongAdder的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于AtomicLong来说，更加适合写多读少的并发情景。今天，我们就研究一下LongAdder的原理，探究一下它如此高效的原因。</p>
@@ -692,6 +708,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java并发系统学习番外篇/" rel="tag"><i class="fa fa-tag"></i> java并发系统学习番外篇</a>
+          
+        </div>
       
 
       
@@ -1044,7 +1066,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#categories-技术"><span class="nav-number">1.</span> <span class="nav-text">categories: 技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LongAdder解析"><span class="nav-number">1.1.</span> <span class="nav-text">LongAdder解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本原理和思想"><span class="nav-number">1.1.1.</span> <span class="nav-text">基本原理和思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LongAdder的成员变量"><span class="nav-number">1.1.2.</span> <span class="nav-text">LongAdder的成员变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Add操作"><span class="nav-number">1.1.3.</span> <span class="nav-text">Add操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LongAccumulate方法"><span class="nav-number">1.1.4.</span> <span class="nav-text">LongAccumulate方法</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LongAdder解析"><span class="nav-number">1.</span> <span class="nav-text">LongAdder解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本原理和思想"><span class="nav-number">1.1.</span> <span class="nav-text">基本原理和思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LongAdder的成员变量"><span class="nav-number">1.2.</span> <span class="nav-text">LongAdder的成员变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Add操作"><span class="nav-number">1.3.</span> <span class="nav-text">Add操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LongAccumulate方法"><span class="nav-number">1.4.</span> <span class="nav-text">LongAccumulate方法</span></a></li></ol></li></ol></div>
             
 
           </div>
