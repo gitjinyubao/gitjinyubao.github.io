@@ -134,20 +134,29 @@
 
 
 
-  <meta name="description" content="为什么会有内存屏障 每个CPU都会有自己的缓存（有的甚至L1,L2,L3），缓存的目的就是为了提高性能，避免每次都要向内存取。但是这样的弊端也很明显：不能实时的和内存发生信息交换，分在不同CPU执行的不同线程对同一个变量的缓存值不同。 用volatile关键字修饰变量可以解决上述问题，那么volatile是如何做到这一点的呢？那就是内存屏障，内存屏障是硬件层的概念，不同的硬件平台实现内存屏障的手">
-<meta name="keywords" content="java并发系统学习番外篇">
+  <meta name="description" content="CPU高速缓存（Cache Memory）CPU为何要有高速缓存CPU在摩尔定律的指导下以每18个月翻一番的速度在发展，然而内存和硬盘的发展速度远远不及CPU。这就造成了高性能能的内存和硬盘价格及其昂贵。然而CPU的高度运算需要高速的数据。为了解决这个问题，CPU厂商在CPU中内置了少量的高速缓存以解决I\O速度和CPU运算速度之间的不匹配问题。">
+<meta name="keywords" content="life,java,centos,technology,Internet,movie,read">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内存屏障">
-<meta property="og:url" content="https://www.zengmanhua.cn/2019/05/23/内存屏障/index.html">
+<meta property="og:title" content="CPU缓存一致性协议MESI">
+<meta property="og:url" content="https://www.zengmanhua.cn/2019/05/23/CPU缓存一致性协议MESI/index.html">
 <meta property="og:site_name" content="JinYuBao">
-<meta property="og:description" content="为什么会有内存屏障 每个CPU都会有自己的缓存（有的甚至L1,L2,L3），缓存的目的就是为了提高性能，避免每次都要向内存取。但是这样的弊端也很明显：不能实时的和内存发生信息交换，分在不同CPU执行的不同线程对同一个变量的缓存值不同。 用volatile关键字修饰变量可以解决上述问题，那么volatile是如何做到这一点的呢？那就是内存屏障，内存屏障是硬件层的概念，不同的硬件平台实现内存屏障的手">
+<meta property="og:description" content="CPU高速缓存（Cache Memory）CPU为何要有高速缓存CPU在摩尔定律的指导下以每18个月翻一番的速度在发展，然而内存和硬盘的发展速度远远不及CPU。这就造成了高性能能的内存和硬盘价格及其昂贵。然而CPU的高度运算需要高速的数据。为了解决这个问题，CPU厂商在CPU中内置了少量的高速缓存以解决I\O速度和CPU运算速度之间的不匹配问题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p2.jpg">
-<meta property="og:updated_time" content="2019-05-23T02:42:56.343Z">
+<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p3.jpg">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/114439_c89709a9_1728187.png">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/114554_92a5b80d_1728187.png">
+<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b1.png">
+<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b2.png">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/161249_cfde8a09_1728187.png">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/161358_b45238e1_1728187.png">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/161511_4e6cb342_1728187.png">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/162516_98cb4bec_1728187.png">
+<meta property="og:image" content="https://images.gitee.com/uploads/images/2019/0523/162545_d19aa7ae_1728187.png">
+<meta property="og:updated_time" content="2019-05-23T08:28:34.168Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内存屏障">
-<meta name="twitter:description" content="为什么会有内存屏障 每个CPU都会有自己的缓存（有的甚至L1,L2,L3），缓存的目的就是为了提高性能，避免每次都要向内存取。但是这样的弊端也很明显：不能实时的和内存发生信息交换，分在不同CPU执行的不同线程对同一个变量的缓存值不同。 用volatile关键字修饰变量可以解决上述问题，那么volatile是如何做到这一点的呢？那就是内存屏障，内存屏障是硬件层的概念，不同的硬件平台实现内存屏障的手">
-<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/p2.jpg">
+<meta name="twitter:title" content="CPU缓存一致性协议MESI">
+<meta name="twitter:description" content="CPU高速缓存（Cache Memory）CPU为何要有高速缓存CPU在摩尔定律的指导下以每18个月翻一番的速度在发展，然而内存和硬盘的发展速度远远不及CPU。这就造成了高性能能的内存和硬盘价格及其昂贵。然而CPU的高度运算需要高速的数据。为了解决这个问题，CPU厂商在CPU中内置了少量的高速缓存以解决I\O速度和CPU运算速度之间的不匹配问题。">
+<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/p3.jpg">
 
 
 
@@ -157,7 +166,7 @@
 
   
   
-  <link rel="canonical" href="https://www.zengmanhua.cn/2019/05/23/内存屏障/">
+  <link rel="canonical" href="https://www.zengmanhua.cn/2019/05/23/CPU缓存一致性协议MESI/">
 
 
 
@@ -167,7 +176,7 @@
   };
 </script>
 
-  <title>内存屏障 | JinYuBao</title>
+  <title>CPU缓存一致性协议MESI | JinYuBao</title>
   
 
 
@@ -511,7 +520,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.zengmanhua.cn/2019/05/23/内存屏障/">
+    <link itemprop="mainEntityOfPage" href="https://www.zengmanhua.cn/2019/05/23/CPU缓存一致性协议MESI/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jin Yu Bao">
@@ -528,7 +537,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">内存屏障
+          <h1 class="post-title" itemprop="name headline">CPU缓存一致性协议MESI
 
               
             
@@ -554,30 +563,12 @@
                 
               
 
-              <time title="创建时间：2019-05-23 10:29:38" itemprop="dateCreated datePublished" datetime="2019-05-23T10:29:38+08:00">2019-05-23</time>
+              <time title="创建时间：2019-05-23 11:40:52" itemprop="dateCreated datePublished" datetime="2019-05-23T11:40:52+08:00">2019-05-23</time>
             
 
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -591,8 +582,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/05/23/内存屏障/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/23/内存屏障/" itemprop="commentCount"></span>
+                <a href="/2019/05/23/CPU缓存一致性协议MESI/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/23/CPU缓存一致性协议MESI/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -627,44 +618,74 @@
       
 
       
-        <p><img src="http://prl6c63q7.bkt.clouddn.com/p2.jpg" alt="输入图片说明"></p>
-<h4 id="为什么会有内存屏障"><a href="#为什么会有内存屏障" class="headerlink" title="为什么会有内存屏障"></a>为什么会有内存屏障</h4><ul>
-<li>每个CPU都会有自己的缓存（有的甚至L1,L2,L3），缓存的目的就是为了提高性能，避免每次都要向内存取。但是这样的弊端也很明显：不能实时的和内存发生信息交换，分在不同CPU执行的不同线程对同一个变量的缓存值不同。</li>
-<li>用volatile关键字修饰变量可以解决上述问题，那么volatile是如何做到这一点的呢？那就是内存屏障，内存屏障是硬件层的概念，不同的硬件平台实现内存屏障的手段并不是一样，java通过屏蔽这些差异，统一由jvm来生成内存屏障的指令。<a id="more"></a>
-<h4 id="内存屏障是什么"><a href="#内存屏障是什么" class="headerlink" title="内存屏障是什么"></a>内存屏障是什么</h4></li>
-<li>硬件层的内存屏障分为两种：Load Barrier 和 Store Barrier即读屏障和写屏障。</li>
-<li><p>内存屏障有两个作用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">阻止屏障两侧的指令重排序；</span><br><span class="line">强制把写缓冲区/高速缓存中的脏数据等写回主内存，让缓存中相应的数据失效。</span><br></pre></td></tr></table></figure>
+        <p><img src="http://prl6c63q7.bkt.clouddn.com/p3.jpg" alt="输入图片说明"></p>
+<h3 id="CPU高速缓存（Cache-Memory）"><a href="#CPU高速缓存（Cache-Memory）" class="headerlink" title="CPU高速缓存（Cache Memory）"></a>CPU高速缓存（Cache Memory）</h3><h4 id="CPU为何要有高速缓存"><a href="#CPU为何要有高速缓存" class="headerlink" title="CPU为何要有高速缓存"></a>CPU为何要有高速缓存</h4><p>CPU在摩尔定律的指导下以每18个月翻一番的速度在发展，然而内存和硬盘的发展速度远远不及CPU。这就造成了高性能能的内存和硬盘价格及其昂贵。然而CPU的高度运算需要高速的数据。为了解决这个问题，CPU厂商在CPU中内置了少量的高速缓存以解决I\O速度和CPU运算速度之间的不匹配问题。</p>
+<a id="more"></a>
+<p>在CPU访问存储设备时，无论是存取数据抑或存取指令，都趋于聚集在一片连续的区域中，这就被称为局部性原理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">时间局部性（Temporal Locality）：如果一个信息项正在被访问，那么在近期它很可能还会被再次访问。</span><br></pre></td></tr></table></figure>
+<p>比如循环、递归、方法的反复调用等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">空间局部性（Spatial Locality）：如果一个存储器的位置被引用，那么将来他附近的位置也会被引用。</span><br></pre></td></tr></table></figure>
+<p>比如顺序执行的代码、连续创建的两个对象、数组等。</p>
+<h4 id="带有高速缓存的CPU执行计算的流程"><a href="#带有高速缓存的CPU执行计算的流程" class="headerlink" title="带有高速缓存的CPU执行计算的流程"></a>带有高速缓存的CPU执行计算的流程</h4><ol>
+<li><p>程序以及数据被加载到主内存</p>
 </li>
-<li><p>对于Load Barrier来说，在指令前插入Load Barrier，可以让高速缓存中的数据失效，强制从新从主内存加载数据；</p>
+<li><p>指令和数据被加载到CPU的高速缓存</p>
 </li>
-<li>对于Store Barrier来说，在指令后插入Store Barrier，能让写入缓存中的最新数据更新写入主内存，让其他线程可见。</li>
+<li><p>CPU执行指令，把结果写到高速缓存</p>
+</li>
+<li><p>高速缓存中的数据写回主内存</p>
+</li>
+</ol>
+<p><img src="https://images.gitee.com/uploads/images/2019/0523/114439_c89709a9_1728187.png" alt="输入图片说明"></p>
+<h4 id="目前流行的多级缓存结构"><a href="#目前流行的多级缓存结构" class="headerlink" title="目前流行的多级缓存结构"></a>目前流行的多级缓存结构</h4><p>由于CPU的运算速度超越了1级缓存的数据I\O能力，CPU厂商又引入了多级的缓存结构。</p>
+<p>多级缓存结构<br><img src="https://images.gitee.com/uploads/images/2019/0523/114554_92a5b80d_1728187.png" alt="输入图片说明"></p>
+<h3 id="多核CPU多级缓存一致性协议MESI"><a href="#多核CPU多级缓存一致性协议MESI" class="headerlink" title="多核CPU多级缓存一致性协议MESI"></a>多核CPU多级缓存一致性协议MESI</h3><p>多核CPU的情况下有多个一级缓存，如何保证缓存内部数据的一致,不让系统数据混乱。这里就引出了一个一致性的协议MESI。</p>
+<h4 id="MESI协议缓存状态"><a href="#MESI协议缓存状态" class="headerlink" title="MESI协议缓存状态"></a>MESI协议缓存状态</h4><p>MESI 是指4中状态的首字母。每个Cache line有4个状态，可用2个bit表示，它们分别是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">缓存行（Cache line）:缓存存储数据的单元。</span><br></pre></td></tr></table></figure>
+<p><img src="http://prl6c63q7.bkt.clouddn.com/b1.png" alt="输入图片说明"></p>
+<p>注意：<br> <strong>对于M和E状态而言总是精确的，他们在和该缓存行的真正状态是一致的，而S状态可能是非一致的。</strong><br>如果一个缓存将处于S状态的缓存行作废了，而另一个缓存实际上可能已经独享了该缓存行，但是该缓存却不会将该缓存行升迁为E状态，这是因为其它缓存不会广播他们作废掉该缓存行的通知，同样由于缓存并没有保存该缓存行的copy的数量，因此（即使有这种通知）也没有办法确定自己是否已经独享了该缓存行。</p>
+<p>从上面的意义看来E状态是一种投机性的优化：如果一个CPU想修改一个处于S状态的缓存行，总线事务需要将所有该缓存行的copy变成invalid状态，而修改E状态的缓存不需要使用总线事务。</p>
+<h4 id="MESI状态转换"><a href="#MESI状态转换" class="headerlink" title="MESI状态转换"></a>MESI状态转换</h4><p><img src="http://prl6c63q7.bkt.clouddn.com/b2.png" alt="输入图片说明"></p>
+<p>理解该图的前置说明：<br>1.触发事件</p>
+<table><br><thead><br><tr class="header"><br><th style="text-align: center;">状态</th><br><th style="text-align: center;">触发本地读取</th><br><th style="text-align: center;">触发本地写入</th><br><th style="text-align: center;">触发远端读取</th><br><th style="text-align: center;">触发远端写入</th><br></tr><br></thead><br><tbody><br><tr class="odd"><br><td style="text-align: center;"><strong>M状态（修改）</strong></td><br><td style="text-align: center;">本地cache:M <br>触发cache:M<br>其他cache:I</td><br><td style="text-align: center;">本地cache:M <br>触发cache:M<br>其他cache:I</td><br><td style="text-align: center;">本地cache:M→E→S<br>触发cache:I→S<br>其他cache:I→S<br>同步主内存后修改为E独享,同步触发、其他cache后本地、触发、其他cache修改为S共享</td><br><td style="text-align: center;">本地cache:M→E→S→I<br>触发cache:I→S→E→M<br>其他cache:I→S→I<br>同步和读取一样,同步完成后触发cache改为M，本地、其他cache改为I</td><br></tr><br><tr class="even"><br><td style="text-align: center;"><strong>E状态（独享）</strong></td><br><td style="text-align: center;">本地cache:E<br>触发cache:E<br>其他cache:I</td><br><td style="text-align: center;">本地cache:E→M<br>触发cache:E→M<br>其他cache:I<br>本地cache变更为M,其他cache状态应当是I（无效）</td><br><td style="text-align: center;">本地cache:E→S<br>触发cache:I→S<br>其他cache:I→S<br>当其他cache要读取该数据时，其他、触发、本地cache都被设置为S(共享)</td><br><td style="text-align: center;">本地cache:E→S→I<br>触发cache:I→S→E→M<br>其他cache:I→S→I<br>当触发cache修改本地cache独享数据时时，将本地、触发、其他cache修改为S共享.然后触发cache修改为独享，其他、本地cache修改为I（无效），触发cache再修改为M</td><br></tr><br><tr class="odd"><br><td style="text-align: center;"><strong>S状态(共享)</strong></td><br><td style="text-align: center;">本地cache:S<br>触发cache:S<br>其他cache:S</td><br><td style="text-align: center;">本地cache:S→E→M<br>触发cache:S→E→M<br>其他cache:S→I <br>当本地cache修改时，将本地cache修改为E,其他cache修改为I,然后再将本地cache为M状态</td><br><td style="text-align: center;">本地cache:S<br>触发cache:S<br>其他cache:S</td><br><td style="text-align: center;">本地cache:S→I<br>触发cache：S→E→M<br>其他cache:S→I<br>当触发cache要修改本地共享数据时，触发cache修改为E（独享）,本地、其他cache修改为I（无效）,触发cache再次修改为M(修改)</td><br></tr><br><tr class="even"><br><td style="text-align: center;"><strong>I状态（无效）</strong></td><br><td style="text-align: center;">本地cache:I→S或者I→E<br>触发cache:I→S或者I →E<br>其他cache:E、M、I→S、I<br>本地、触发cache将从I无效修改为S共享或者E独享，其他cache将从E、M、I 变为S或者I</td><br><td style="text-align: center;">本地cache:I→S→E→M<br>触发cache:I→S→E→M<br>其他cache:M、E、S→S→I<br></td><br><td style="text-align: center;">既然是本cache是I，其他cache操作与它无关</td><br><td style="text-align: center;">既然是本cache是I，其他cache操作与它无关</td><br></tr><br></tbody><br></table>
+
+<p>下图示意了，当一个cache line的调整的状态的时候，另外一个cache line 需要调整的状态。</p>
+<table><br><thead><br><tr class="header"><br><th style="text-align: center;"></th><br><th style="text-align: center;">M</th><br><th style="text-align: center;">E</th><br><th style="text-align: center;">S</th><br><th style="text-align: center;"><strong>I</strong></th><br></tr><br></thead><br><tbody><br><tr class="odd"><br><td style="text-align: center;"><strong>M</strong></td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">√</td><br></tr><br><tr class="even"><br><td style="text-align: center;"><strong>E</strong></td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">√</td><br></tr><br><tr class="odd"><br><td style="text-align: center;"><strong>S</strong></td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">×</td><br><td style="text-align: center;">√</td><br><td style="text-align: center;">√</td><br></tr><br><tr class="even"><br><td style="text-align: center;"><strong>I</strong></td><br><td style="text-align: center;">√</td><br><td style="text-align: center;">√</td><br><td style="text-align: center;">√</td><br><td style="text-align: center;">√</td><br></tr><br></tbody><br></table>
+
+<p>举个栗子来说：</p>
+<p>假设cache 1 中有一个变量x = 0的cache line 处于S状态(共享)。<br>那么其他拥有x变量的cache 2、cache 3等x的cache line调整为S状态（共享）或者调整为 I 状态（无效）。</p>
+<h4 id="多核缓存协同操作"><a href="#多核缓存协同操作" class="headerlink" title="多核缓存协同操作"></a>多核缓存协同操作</h4><p>假设有三个CPU A、B、C，对应三个缓存分别是cache a、b、 c。在主内存中定义了x的引用值为0。</p>
+<p><img src="https://images.gitee.com/uploads/images/2019/0523/161249_cfde8a09_1728187.png" alt="输入图片说明"></p>
+<h5 id="单核读取"><a href="#单核读取" class="headerlink" title="单核读取"></a>单核读取</h5><p>那么执行流程是：<br>CPU A发出了一条指令，从主内存中读取x。<br>从主内存通过bus读取到缓存中（远端读取Remote read）,这是该Cache line修改为E状态（独享）.</p>
+<p><img src="https://images.gitee.com/uploads/images/2019/0523/161358_b45238e1_1728187.png" alt></p>
+<h5 id="双核读取"><a href="#双核读取" class="headerlink" title="双核读取"></a>双核读取</h5><p>那么执行流程是：<br>CPU A发出了一条指令，从主内存中读取x。<br>CPU A从主内存通过bus读取到 cache a中并将该cache line 设置为E状态。<br>CPU B发出了一条指令，从主内存中读取x。<br>CPU B试图从主内存中读取x时，CPU A检测到了地址冲突。这时CPU A对相关数据做出响应。此时x 存储于cache a和cache b中，x在chche a和cache b中都被设置为S状态(共享)。</p>
+<p><img src="https://images.gitee.com/uploads/images/2019/0523/161511_4e6cb342_1728187.png" alt></p>
+<h5 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h5><p>那么执行流程是：<br>CPU A 计算完成后发指令需要修改x.<br>CPU A 将x设置为M状态（修改）并通知缓存了x的CPU B, CPU B将本地cache b中的x设置为I状态(无效)<br>CPU A 对x进行赋值。</p>
+<p><img src="https://images.gitee.com/uploads/images/2019/0523/162516_98cb4bec_1728187.png" alt></p>
+<h5 id="同步数据"><a href="#同步数据" class="headerlink" title="同步数据"></a>同步数据</h5><p>那么执行流程是：</p>
+<p>CPU B 发出了要读取x的指令。<br>CPU B 通知CPU A,CPU A将修改后的数据同步到主内存时cache a 修改为E（独享）<br>CPU A同步CPU B的x,将cache a和同步后cache b中的x设置为S状态（共享）。</p>
+<p><img src="https://images.gitee.com/uploads/images/2019/0523/162545_d19aa7ae_1728187.png" alt="输入图片说明"></p>
+<h3 id="MESI优化和他们引入的问题"><a href="#MESI优化和他们引入的问题" class="headerlink" title="MESI优化和他们引入的问题"></a>MESI优化和他们引入的问题</h3><p>缓存的一致性消息传递是要时间的，这就使其切换时会产生延迟。当一个缓存被切换状态时其他缓存收到消息完成各自的切换并且发出回应消息这么一长串的时间中CPU都会等待所有缓存响应完成。可能出现的阻塞都会导致各种各样的性能问题和稳定性问题。</p>
+<h4 id="CPU切换状态阻塞解决-存储缓存（Store-Bufferes）"><a href="#CPU切换状态阻塞解决-存储缓存（Store-Bufferes）" class="headerlink" title="CPU切换状态阻塞解决-存储缓存（Store Bufferes）"></a>CPU切换状态阻塞解决-存储缓存（Store Bufferes）</h4><p>比如你需要修改本地缓存中的一条信息，那么你必须将I（无效）状态通知到其他拥有该缓存数据的CPU缓存中，并且等待确认。等待确认的过程会阻塞处理器，这会降低处理器的性能。应为这个等待远远比一个指令的执行时间长的多。</p>
+<h5 id="Store-Bufferes"><a href="#Store-Bufferes" class="headerlink" title="Store Bufferes"></a>Store Bufferes</h5><p>为了避免这种CPU运算能力的浪费，Store Bufferes被引入使用。处理器把它想要写入到主存的值写到缓存，然后继续去处理其他事情。当所有失效确认（Invalidate Acknowledge）都接收到时，数据才会最终被提交。<br>这么做有两个风险</p>
+<p>Store Bufferes的风险<br>第一、就是处理器会尝试从存储缓存（Store buffer）中读取值，但它还没有进行提交。这个的解决方案称为Store Forwarding，它使得加载的时候，如果存储缓存中存在，则进行返回。<br>第二、保存什么时候会完成，这个并没有任何保证。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">value = 3；</span><br><span class="line"></span><br><span class="line">void exeToCPUA()&#123;</span><br><span class="line">  value = 10;</span><br><span class="line">  isFinsh = true;</span><br><span class="line">&#125;</span><br><span class="line">void exeToCPUB()&#123;</span><br><span class="line">  if(isFinsh)&#123;</span><br><span class="line">    //value一定等于10？！</span><br><span class="line">    assert value == 10;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>试想一下开始执行时，CPU A保存着finished在E(独享)状态，而value并没有保存在它的缓存中。（例如，Invalid）。在这种情况下，value会比finished更迟地抛弃存储缓存。完全有可能CPU B读取finished的值为true，而value的值不等于10。<br> <strong>即isFinsh的赋值在value赋值之前。</strong> </p>
+<p>这种在可识别的行为中发生的变化称为重排序（reordings）。注意，这不意味着你的指令的位置被恶意（或者好意）地更改。</p>
+<p>它只是意味着其他的CPU会读到跟程序中写入的顺序不一样的结果。</p>
+<p>顺便提一下NIO的设计和Store Bufferes的设计是非常相像的。</p>
+<h4 id="硬件内存模型"><a href="#硬件内存模型" class="headerlink" title="硬件内存模型"></a>硬件内存模型</h4><p>执行失效也不是一个简单的操作，它需要处理器去处理。另外，存储缓存（Store Buffers）并不是无穷大的，所以处理器有时需要等待失效确认的返回。这两个操作都会使得性能大幅降低。为了应付这种情况，引入了失效队列。它们的约定如下：</p>
+<ul>
+<li>对于所有的收到的Invalidate请求，Invalidate Acknowlege消息必须立刻发送</li>
+<li>Invalidate并不真正执行，而是被放在一个特殊的队列中，在方便的时候才会去执行。</li>
+<li>处理器不会发送任何消息给所处理的缓存条目，直到它处理Invalidate。</li>
 </ul>
-<h4 id="java内存屏障"><a href="#java内存屏障" class="headerlink" title="java内存屏障"></a>java内存屏障</h4><ul>
-<li>java的内存屏障通常所谓的四种即LoadLoad,StoreStore,LoadStore,StoreLoad实际上也是上述两种的组合，完成一系列的屏障和数据同步功能。</li>
-<li>LoadLoad屏障：对于这样的语句Load1; LoadLoad; Load2，在Load2及后续读取操作要读取的数据被访问前，保证Load1要读取的数据被读取完毕。</li>
-<li>StoreStore屏障：对于这样的语句Store1; StoreStore; Store2，在Store2及后续写入操作执行前，保证Store1的写入操作对其它处理器可见。</li>
-<li>LoadStore屏障：对于这样的语句Load1; LoadStore; Store2，在Store2及后续写入操作被刷出前，保证Load1要读取的数据被读取完毕。</li>
-<li>StoreLoad屏障：对于这样的语句Store1; StoreLoad; Load2，在Load2及后续所有读取操作执行前，保证Store1的写入对所有处理器可见。 <strong><em>它的开销是四种屏障中最大的。在大多数处理器的实现中，这个屏障是个万能屏障，兼具其它三种内存屏障的功能</em></strong></li>
-</ul>
-<h4 id="volatile语义中的内存屏障"><a href="#volatile语义中的内存屏障" class="headerlink" title="volatile语义中的内存屏障"></a>volatile语义中的内存屏障</h4><ul>
-<li><p>volatile的内存屏障策略非常严格保守，非常悲观且毫无安全感的心态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这里是列表文本在每个volatile写操作前插入StoreStore屏障，在写操作后插入StoreLoad屏障；</span><br><span class="line">在每个volatile读操作前插入LoadLoad屏障，在读操作后插入LoadStore屏障；</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>由于内存屏障的作用，避免了volatile变量和其它指令重排序、线程之间实现了通信，使得volatile表现出了锁的特性。</p>
-</li>
-</ul>
-<h4 id="final语义中的内存屏障"><a href="#final语义中的内存屏障" class="headerlink" title="final语义中的内存屏障"></a>final语义中的内存屏障</h4><ul>
-<li><p>对于final域，编译器和CPU会遵循两个排序规则：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">新建对象过程中，构造体中对final域的初始化写入和这个对象赋值给其他引用变量，这两个操作不能重排序；（废话嘛）</span><br><span class="line">初次读包含final域的对象引用和读取这个final域，这两个操作不能重排序；（晦涩，意思就是先赋值引用，再调用final值）</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>总之上面规则的意思可以这样理解，必需保证一个对象的所有final域被写入完毕后才能引用和读取。这也是内存屏障的起的作用：</p>
-</li>
-<li>写final域：在编译器写final域完毕，构造体结束之前，会插入一个StoreStore屏障，保证前面的对final写入对其他线程/CPU可见，并阻止重排序。</li>
-<li>读final域：在上述规则2中，两步操作不能重排序的机理就是在读final域前插入了LoadLoad屏障。</li>
-<li>X86处理器中，由于CPU不会对写-写操作进行重排序，所以StoreStore屏障会被省略；而X86也不会对逻辑上有先后依赖关系的操作进行重排序，所以LoadLoad也会变省略。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">原文链接：https://www.jianshu.com/p/2ab5e3d7e510</span><br></pre></td></tr></table></figure>
+<p>即便是这样处理器已然不知道什么时候优化是允许的，而什么时候并不允许。<br>干脆处理器将这个任务丢给了写代码的人。这就是内存屏障（Memory Barriers）。</p>
+<p><code>写屏障 Store Memory Barrier(a.k.a. ST, SMB, smp_wmb)是一条告诉处理器在执行这之后的指令之前，应用所有已经在存储缓存（store buffer）中的保存的指令。</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">读屏障Load Memory Barrier (a.k.a. LD, RMB, smp_rmb)是一条告诉处理器在执行任何的加载前，先应用所有已经在失效队列中的失效操作的指令。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void executedOnCpu0() &#123;</span><br><span class="line">    value = 10;</span><br><span class="line">    //在更新数据之前必须将所有存储缓存（store buffer）中的指令执行完毕。</span><br><span class="line">    storeMemoryBarrier();</span><br><span class="line">    finished = true;</span><br><span class="line">&#125;</span><br><span class="line">void executedOnCpu1() &#123;</span><br><span class="line">    while(!finished);</span><br><span class="line">    //在读取之前将所有失效队列中关于该数据的指令执行完毕。</span><br><span class="line">    loadMemoryBarrier();</span><br><span class="line">    assert value == 10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在确实安全了。完美无暇！</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>然而，对于程序员来说简直是一个灾难。不想和平台耦合我们要跨平台。Write One,Run Everywhere!<br>幸好java解决了这个问题，至于如何解决的请关注JMM(JavaMemoryMode)与物理内存相爱相杀。</p>
 
       
     </div>
@@ -709,12 +730,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/java并发系统学习番外篇/" rel="tag"><i class="fa fa-tag"></i> java并发系统学习番外篇</a>
-          
-        </div>
       
 
       
@@ -783,8 +798,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/23/LongAdder解析/" rel="next" title="LongAdder解析">
-                <i class="fa fa-chevron-left"></i> LongAdder解析
+              <a href="/2019/05/23/内存屏障/" rel="next" title="内存屏障">
+                <i class="fa fa-chevron-left"></i> 内存屏障
               </a>
             
           </div>
@@ -792,10 +807,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/23/CPU缓存一致性协议MESI/" rel="prev" title="CPU缓存一致性协议MESI">
-                CPU缓存一致性协议MESI <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -1071,7 +1082,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么会有内存屏障"><span class="nav-number">1.</span> <span class="nav-text">为什么会有内存屏障</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存屏障是什么"><span class="nav-number">2.</span> <span class="nav-text">内存屏障是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java内存屏障"><span class="nav-number">3.</span> <span class="nav-text">java内存屏障</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile语义中的内存屏障"><span class="nav-number">4.</span> <span class="nav-text">volatile语义中的内存屏障</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#final语义中的内存屏障"><span class="nav-number">5.</span> <span class="nav-text">final语义中的内存屏障</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU高速缓存（Cache-Memory）"><span class="nav-number">1.</span> <span class="nav-text">CPU高速缓存（Cache Memory）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU为何要有高速缓存"><span class="nav-number">1.1.</span> <span class="nav-text">CPU为何要有高速缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#带有高速缓存的CPU执行计算的流程"><span class="nav-number">1.2.</span> <span class="nav-text">带有高速缓存的CPU执行计算的流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目前流行的多级缓存结构"><span class="nav-number">1.3.</span> <span class="nav-text">目前流行的多级缓存结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多核CPU多级缓存一致性协议MESI"><span class="nav-number">2.</span> <span class="nav-text">多核CPU多级缓存一致性协议MESI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MESI协议缓存状态"><span class="nav-number">2.1.</span> <span class="nav-text">MESI协议缓存状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MESI状态转换"><span class="nav-number">2.2.</span> <span class="nav-text">MESI状态转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多核缓存协同操作"><span class="nav-number">2.3.</span> <span class="nav-text">多核缓存协同操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#单核读取"><span class="nav-number">2.3.1.</span> <span class="nav-text">单核读取</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#双核读取"><span class="nav-number">2.3.2.</span> <span class="nav-text">双核读取</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改数据"><span class="nav-number">2.3.3.</span> <span class="nav-text">修改数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#同步数据"><span class="nav-number">2.3.4.</span> <span class="nav-text">同步数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MESI优化和他们引入的问题"><span class="nav-number">3.</span> <span class="nav-text">MESI优化和他们引入的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU切换状态阻塞解决-存储缓存（Store-Bufferes）"><span class="nav-number">3.1.</span> <span class="nav-text">CPU切换状态阻塞解决-存储缓存（Store Bufferes）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Store-Bufferes"><span class="nav-number">3.1.1.</span> <span class="nav-text">Store Bufferes</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#硬件内存模型"><span class="nav-number">3.2.</span> <span class="nav-text">硬件内存模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">4.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
