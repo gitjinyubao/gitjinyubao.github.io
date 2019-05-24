@@ -154,7 +154,7 @@
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b26.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b27.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b28.png">
-<meta property="og:updated_time" content="2019-05-24T06:27:29.971Z">
+<meta property="og:updated_time" content="2019-05-24T11:48:48.395Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal及ThreadLocal内存溢出分析">
 <meta name="twitter:description" content="ThreadLocal 定义，以及是否可能引起的内存泄露(threadlocalMap的Key是弱引用，用线程池有可能泄露)ThreadLocal 也可以跟踪一个请求，从接收请求，处理请求，到返回请求，只要线程不销毁，就可以在线程的任何地方，调用这个参数，这是百度二面的题目，参考：">
@@ -340,6 +340,40 @@
     
 
     <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-读书">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/books" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i> <br>读书</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-电影">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/movies" rel="section"><i class="menu-item-icon fa fa-fw fa-film"></i> <br>电影</a>
 
   </li>
         
@@ -678,6 +712,7 @@
 <p>因此，只要这个线程对象被gc回收，就不会出现内存泄露，但在threadLocal设为null和线程结束这段时间内不会被回收的，就发生了我们认为的内存泄露。最要命的是线程对象不被回收的情况，比如使用线程池的时候，线程结束是不会销毁的，再次使用的，就可能出现内存泄露。</p>
 <p><strong><em>那么如何有效的避免呢？</em></strong></p>
 <p><strong><em>事实上，在ThreadLocalMap中的set/getEntry方法中，会对key为null（也即是ThreadLocal为null）进行判断，如果为null的话，那么是会对value置为null的。我们也可以通过调用ThreadLocal的remove方法进行释放！</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">来源：https://www.cnblogs.com/aspirant/p/8991010.html</span><br></pre></td></tr></table></figure>
 
       
     </div>
