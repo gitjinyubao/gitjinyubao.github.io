@@ -142,14 +142,14 @@
 <meta property="og:site_name" content="JinYuBao">
 <meta property="og:description" content="前言一提到线程安全的并发计数器，AtomicLong 必然是第一个被联想到的工具。Atomic* 一系列的原子类以及它们背后的 CAS 无锁算法，常常是高性能，高并发的代名词。本文将会阐释，在并发场景下，使用 AtomicLong 来充当并发计数器将会是一个糟糕的设计，实际上存在不少 AtomicLong 之外的计数器方案。近期我研究了一些 Jdk1.8 以及 JCTools 的优化方案，并将它">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/beautiyful.jpg">
+<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p12.jpg">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/ConcurrentAutoTable%20.png">
 <meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/test.png">
-<meta property="og:updated_time" content="2019-05-22T12:02:07.221Z">
+<meta property="og:updated_time" content="2019-05-24T05:13:28.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发计数器分析">
 <meta name="twitter:description" content="前言一提到线程安全的并发计数器，AtomicLong 必然是第一个被联想到的工具。Atomic* 一系列的原子类以及它们背后的 CAS 无锁算法，常常是高性能，高并发的代名词。本文将会阐释，在并发场景下，使用 AtomicLong 来充当并发计数器将会是一个糟糕的设计，实际上存在不少 AtomicLong 之外的计数器方案。近期我研究了一些 Jdk1.8 以及 JCTools 的优化方案，并将它">
-<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/beautiyful.jpg">
+<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/p12.jpg">
 
 
 
@@ -595,7 +595,7 @@
       
 
       
-        <p><img src="http://prl6c63q7.bkt.clouddn.com/beautiyful.jpg" alt></p>
+        <p><img src="http://prl6c63q7.bkt.clouddn.com/p12.jpg" alt></p>
 <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><pre><code>一提到线程安全的并发计数器，AtomicLong 必然是第一个被联想到的工具。Atomic* 一系列的原子类以及它们背后的 CAS 无锁算法，常常是高性能，高并发的代名词。本文将会阐释，在并发场景下，使用 AtomicLong 来充当并发计数器将会是一个糟糕的设计，实际上存在不少 AtomicLong 之外的计数器方案。近期我研究了一些 Jdk1.8 以及 JCTools 的优化方案，并将它们的对比与实现细节整理于此。
 </code></pre><a id="more"></a>
 <h4 id="AtomicLong-的前世今生"><a href="#AtomicLong-的前世今生" class="headerlink" title="AtomicLong 的前世今生"></a>AtomicLong 的前世今生</h4><pre><code>在 Java 中，Atomic* 是高效的，这得益于 sun.misc.Unsafe 提供的一系列底层 API，使得 Java 这样的高级语言能够直接和硬件层面的 CPU 指令打交道。并且在 Jdk1.7 中，这样的底层指令可以配合 CAS 操作，达到 Lock-Free。
