@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.zengmanhua.cn/2019/05/18/hello-world/</loc>
+    <lastmod>2019-05-24</lastmod>
+  </url>  <url>
     <loc>https://www.zengmanhua.cn/2019/05/18/%E6%97%B6%E5%85%89%E8%8D%8F%E8%8B%92%EF%BC%8C%E8%B9%89%E8%B7%8E%E4%BA%86%E8%B0%81%E7%9A%84%E5%B9%B4%E5%8D%8E/</loc>
     <lastmod>2019-05-24</lastmod>
   </url>  <url>
@@ -20,9 +23,6 @@
     <lastmod>2019-05-23</lastmod>
   </url>  <url>
     <loc>https://www.zengmanhua.cn/2019/05/23/%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C/</loc>
-    <lastmod>2019-05-23</lastmod>
-  </url>  <url>
-    <loc>https://www.zengmanhua.cn/2019/05/18/hello-world/</loc>
     <lastmod>2019-05-23</lastmod>
   </url>  <url>
     <loc>https://www.zengmanhua.cn/2019/05/23/LongAdder%E8%A7%A3%E6%9E%90/</loc>
