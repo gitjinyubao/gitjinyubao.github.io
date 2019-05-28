@@ -1898,7 +1898,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff86ff;
+  background: #1f11f6;
 }
 .feed-link,
 .chat {
@@ -3131,4 +3131,11 @@ body {
 }
 .social_share {
   margin-top: 5px;
+}
+body {
+  background: url("/images/background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 50%;
 }
