@@ -134,15 +134,18 @@
 
 
 
-  <meta name="keywords" content="life,java,centos,technology,Internet,movie,read">
-<meta property="og:type" content="website">
-<meta property="og:title" content="我的音乐">
-<meta property="og:url" content="https://www.zengmanhua.cn/music/index.html">
+  <meta name="description" content="生活源于奋斗">
+<meta name="keywords" content="life,java,centos,technology,Internet,movie,read">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JinYuBao">
+<meta property="og:url" content="https://www.zengmanhua.cn/2019/05/30/volatile与内存屏障/index.html">
 <meta property="og:site_name" content="JinYuBao">
+<meta property="og:description" content="生活源于奋斗">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-28T07:19:15.257Z">
+<meta property="og:updated_time" content="2019-05-30T09:56:24.827Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的音乐">
+<meta name="twitter:title" content="JinYuBao">
+<meta name="twitter:description" content="生活源于奋斗">
 
 
 
@@ -152,7 +155,7 @@
 
   
   
-  <link rel="canonical" href="https://www.zengmanhua.cn/music/">
+  <link rel="canonical" href="https://www.zengmanhua.cn/2019/05/30/volatile与内存屏障/">
 
 
 
@@ -162,7 +165,7 @@
   };
 </script>
 
-  <title>我的音乐 | JinYuBao</title>
+  <title> | JinYuBao</title>
   
 
 
@@ -364,7 +367,7 @@
         
         
           
-          <li class="menu-item menu-item-音乐 menu-item-active">
+          <li class="menu-item menu-item-音乐">
 
     
     
@@ -486,95 +489,273 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.zengmanhua.cn/2019/05/30/volatile与内存屏障/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jin Yu Bao">
+      <meta itemprop="description" content="生活源于奋斗">
+      <meta itemprop="image" content="http://prl6c63q7.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JinYuBao">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">我的音乐
-
-</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="aplayer" data-id="4875075" data-server="netease" data-type="song" data-mode="single"></div><br><div class="aplayer" data-id="5500070" data-server="netease" data-type="song" data-mode="single"></div><br><div class="aplayer" data-id="247498" data-server="netease" data-type="song" data-mode="single"></div><br><div class="aplayer" data-id="4876080" data-server="netease" data-type="song" data-mode="single"></div><br><div class="aplayer" data-id="455556558" data-server="netease" data-type="song" data-mode="single"></div><br><div class="aplayer" data-id="25706282" data-server="netease" data-type="song" data-mode="single"></div><br><div class="aplayer" data-id="33705768" data-server="netease" data-type="song" data-mode="single"></div>
+          <h1 class="post-title" itemprop="name headline">
 
-
+              
+            
+          </h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-30 17:56:24" itemprop="dateCreated datePublished" datetime="2019-05-30T17:56:24+08:00">2019-05-30</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/30/volatile与内存屏障/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/30/volatile与内存屏障/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        
       
     </div>
-    
-
-
 
     
+
     
     
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="Jin Yu Bao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      <div style="text-align:center;color: #ccc;font-size:14px;">
+              --------- 感谢您的关注 ---------
+       </div>
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div class="social_share">
+            
+            
+            
+              <div>
+                
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <!-- <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a> -->
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+              </div>
+            
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/28/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -1001,6 +1182,8 @@ show_date_time();
 
 
 
+
+  
 
 
   
