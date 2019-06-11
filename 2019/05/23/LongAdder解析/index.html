@@ -141,16 +141,16 @@
 <meta property="og:site_name" content="JinYuBao">
 <meta property="og:description" content="LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适合写多读少的并发情景。今天，我们就研究一下`LongAdder`的原理，探究一下它如此高效的原因。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p1.jpg">
+<meta property="og:image" content="http://47.103.200.134/image/p1.jpg">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/623378-39fea917eb75cd7e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/623378-8433413840b2a94b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/623378-71b68d5e008eca77.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/623378-71b68d5e008eca77.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-05-30T23:50:54.296Z">
+<meta property="og:updated_time" content="2019-06-11T04:28:22.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LongAdder解析">
 <meta name="twitter:description" content="LongAdder解析 1摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适合写多读少的并发情景。今天，我们就研究一下`LongAdder`的原理，探究一下它如此高效的原因。">
-<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/p1.jpg">
+<meta name="twitter:image" content="http://47.103.200.134/image/p1.jpg">
 
 
 
@@ -630,7 +630,7 @@
       
 
       
-        <h3 id="LongAdder解析"><a href="#LongAdder解析" class="headerlink" title="LongAdder解析"></a>LongAdder解析</h3><p><img src="http://prl6c63q7.bkt.clouddn.com/p1.jpg" alt="输入图片说明"></p>
+        <h3 id="LongAdder解析"><a href="#LongAdder解析" class="headerlink" title="LongAdder解析"></a>LongAdder解析</h3><p><img src="http://47.103.200.134/image/p1.jpg" alt="输入图片说明"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">摘要： 对`LongAdder`的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于`AtomicLong`来说，更加适合写多读少的并发情景。今天，我们就研究一下`LongAdder`的原理，探究一下它如此高效的原因。</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>对LongAdder的最初了解是从Coolshell上的一篇文章中获得的，但是一直都没有深入的了解过其实现，只知道它相较于AtomicLong来说，更加适合写多读少的并发情景。今天，我们就研究一下LongAdder的原理，探究一下它如此高效的原因。</p>

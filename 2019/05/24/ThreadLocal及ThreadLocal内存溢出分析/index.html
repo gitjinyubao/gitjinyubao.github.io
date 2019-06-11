@@ -141,23 +141,23 @@
 <meta property="og:site_name" content="JinYuBao">
 <meta property="og:description" content="ThreadLocal 定义，以及是否可能引起的内存泄露(threadlocalMap的Key是弱引用，用线程池有可能泄露)ThreadLocal 也可以跟踪一个请求，从接收请求，处理请求，到返回请求，只要线程不销毁，就可以在线程的任何地方，调用这个参数，这是百度二面的题目，参考：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p15.jpg">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b18.jpg">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b19.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b20.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b21.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b22.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b23.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b24.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b25.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b26.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b27.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b28.png">
-<meta property="og:updated_time" content="2019-05-30T23:50:54.006Z">
+<meta property="og:image" content="http://47.103.200.134/image/p15.jpg">
+<meta property="og:image" content="http://47.103.200.134/image/b18.jpg">
+<meta property="og:image" content="http://47.103.200.134/image/b19.png">
+<meta property="og:image" content="http://47.103.200.134/image/b20.png">
+<meta property="og:image" content="http://47.103.200.134/image/b21.png">
+<meta property="og:image" content="http://47.103.200.134/image/b22.png">
+<meta property="og:image" content="http://47.103.200.134/image/b23.png">
+<meta property="og:image" content="http://47.103.200.134/image/b24.png">
+<meta property="og:image" content="http://47.103.200.134/image/b25.png">
+<meta property="og:image" content="http://47.103.200.134/image/b26.png">
+<meta property="og:image" content="http://47.103.200.134/image/b27.png">
+<meta property="og:image" content="http://47.103.200.134/image/b28.png">
+<meta property="og:updated_time" content="2019-06-11T04:28:37.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal及ThreadLocal内存溢出分析">
 <meta name="twitter:description" content="ThreadLocal 定义，以及是否可能引起的内存泄露(threadlocalMap的Key是弱引用，用线程池有可能泄露)ThreadLocal 也可以跟踪一个请求，从接收请求，处理请求，到返回请求，只要线程不销毁，就可以在线程的任何地方，调用这个参数，这是百度二面的题目，参考：">
-<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/p15.jpg">
+<meta name="twitter:image" content="http://47.103.200.134/image/p15.jpg">
 
 
 
@@ -637,13 +637,13 @@
       
 
       
-        <p><img src="http://prl6c63q7.bkt.clouddn.com/p15.jpg" alt></p>
+        <p><img src="http://47.103.200.134/image/p15.jpg" alt></p>
 <h3 id="ThreadLocal-定义，以及是否可能引起的内存泄露-threadlocalMap的Key是弱引用，用线程池有可能泄露"><a href="#ThreadLocal-定义，以及是否可能引起的内存泄露-threadlocalMap的Key是弱引用，用线程池有可能泄露" class="headerlink" title="ThreadLocal 定义，以及是否可能引起的内存泄露(threadlocalMap的Key是弱引用，用线程池有可能泄露)"></a>ThreadLocal 定义，以及是否可能引起的内存泄露(threadlocalMap的Key是弱引用，用线程池有可能泄露)</h3><p>ThreadLocal 也可以跟踪一个请求，从接收请求，处理请求，到返回请求，只要线程不销毁，就可以在线程的任何地方，调用这个参数，这是百度二面的题目，参考：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Threadlocal 传递参数(百度二面) ： https://www.cnblogs.com/aspirant/p/9183920.html</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">总结：</span><br><span class="line">1. JVM利用设置ThreadLocalMap的Key为弱引用，来避免内存泄露。</span><br><span class="line">2. JVM利用调用remove、get、set方法的时候，回收弱引用。</span><br><span class="line">3. 当ThreadLocal存储很多Key为null的Entry的时候，而不再去调用remove、get、set方法，那么将导致内存泄漏。</span><br><span class="line">4. 当使用static ThreadLocal的时候，延长ThreadLocal的生命周期，那也可能导致内存泄漏。因为，static变量在类未加载的时候，它就已经加载，当线程结束的时候，static变量不一定会回收。那么，比起普通成员变量使用的时候才加载，static的生命周期加长将更容易导致内存泄漏危机。http://www.importnew.com/22039.html</span><br></pre></td></tr></table></figure>
 <p><strong><em>那么如何有效的避免呢？</em></strong></p>
 <p><strong><em>事实上，在ThreadLocalMap中的set/getEntry方法中，会对key为null（也即是ThreadLocal为null）进行判断，如果为null的话，那么是会对value置为null的。我们也可以通过调用ThreadLocal的remove方法进行释放！</em></strong></p>
 <p>threadlocal里面使用了一个存在弱引用的map,当释放掉threadlocal的强引用以后,map里面的value却没有被回收.而这块value永远不会被访问到了. 所以存在着内存泄露. 最好的做法是将调用threadlocal的remove方法.</p>
-<p>在threadlocal的生命周期中,都存在这些引用. 看下图: 实线代表强引用,虚线代表弱引用.<br><img src="http://prl6c63q7.bkt.clouddn.com/b18.jpg" alt><br>每个thread中都存在一个map, map的类型是ThreadLocal.ThreadLocalMap. Map中的key为一个threadlocal实例. 这个Map的确使用了弱引用,不过弱引用只是针对key. 每个key都弱引用指向threadlocal. 当把threadlocal实例置为null以后,没有任何强引用指向threadlocal实例,所以threadlocal将会被gc回收. 但是,我们的value却不能回收,因为存在一条从current thread连接过来的强引用. 只有当前thread结束以后, current thread就不会存在栈中,强引用断开, Current Thread, Map, value将全部被GC回收.</p>
+<p>在threadlocal的生命周期中,都存在这些引用. 看下图: 实线代表强引用,虚线代表弱引用.<br><img src="http://47.103.200.134/image/b18.jpg" alt><br>每个thread中都存在一个map, map的类型是ThreadLocal.ThreadLocalMap. Map中的key为一个threadlocal实例. 这个Map的确使用了弱引用,不过弱引用只是针对key. 每个key都弱引用指向threadlocal. 当把threadlocal实例置为null以后,没有任何强引用指向threadlocal实例,所以threadlocal将会被gc回收. 但是,我们的value却不能回收,因为存在一条从current thread连接过来的强引用. 只有当前thread结束以后, current thread就不会存在栈中,强引用断开, Current Thread, Map, value将全部被GC回收.</p>
 <p>所以得出一个结论就是只要这个线程对象被gc回收，就不会出现内存泄露，<strong><em>但在threadLocal设为null和线程结束这段时间不会被回收的，就发生了我们认为的内存泄露</em></strong>.其实这是一个对概念理解的不一致，也没什么好争论的。最要命的是线程对象不被回收的情况，这就发生了真正意义上的内存泄露。<strong><em>比如使用线程池的时候，线程结束是不会销毁的，会再次使用的。就可能出现内存泄露。</em></strong></p>
 <p>PS.Java为了最小化减少内存泄露的可能性和影响，在ThreadLocal的get,set的时候都会清除线程Map里所有key为null的value。所以最怕的情况就是，threadLocal对象设null了，开始发生“内存泄露”，然后使用线程池，这个线程结束，线程放回线程池中不销毁，这个线程一直不被使用，或者分配使用了又不再调用get,set方法，那么这个期间就会发生真正的内存泄露。 </p>
 <h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><p>最常见的ThreadLocal使用场景为 用来解决 数据库连接、Session管理等。如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private static ThreadLocal &lt; Connection &gt; connectionHolder = new ThreadLocal &lt; Connection &gt; () &#123;</span><br><span class="line">    public Connection initialValue() &#123;</span><br><span class="line">        return DriverManager.getConnection(DB_URL);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">public static Connection getConnection() &#123;</span><br><span class="line">    return connectionHolder.get();</span><br><span class="line">&#125;</span><br><span class="line">private static final ThreadLocal threadSession = new ThreadLocal();</span><br><span class="line"></span><br><span class="line">public static Session getSession() throws InfrastructureException &#123;</span><br><span class="line">    Session s = (Session) threadSession.get();</span><br><span class="line">    try &#123;</span><br><span class="line">        if (s == null) &#123;</span><br><span class="line">            s = getSessionFactory().openSession();</span><br><span class="line">            threadSession.set(s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (HibernateException ex) &#123;</span><br><span class="line">        throw new InfrastructureException(ex);</span><br><span class="line">    &#125;</span><br><span class="line">    return s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -657,7 +657,7 @@
 <p>ThreadLocal是什么？有什么用？</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 谈谈ThreadLocal的作用</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> qiuyongAaron</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalThree</span> </span>&#123;</span><br><span class="line">     ThreadLocal&lt;Person&gt; threadLocal=<span class="keyword">new</span> ThreadLocal&lt;Person&gt;();</span><br><span class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">setAndGet</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">           threadLocal.set(<span class="keyword">new</span> Person(name));</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">           &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> threadLocal.get().name;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">           ThreadLocalThree  threadLocal=<span class="keyword">new</span> ThreadLocalThree();</span><br><span class="line">           <span class="keyword">new</span> Thread(()-&gt;System.out.println(<span class="string">"t1:"</span>+threadLocal.setAndGet(<span class="string">"arron"</span>)),<span class="string">"t1"</span>).start();</span><br><span class="line">           <span class="keyword">new</span> Thread(()-&gt;System.out.println(<span class="string">"t2:"</span>+threadLocal.setAndGet(<span class="string">"tony"</span>)),<span class="string">"t2"</span>).start();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">运行结果：</span><br><span class="line">t1:arron</span><br><span class="line">t2:tony</span><br></pre></td></tr></table></figure>
-<h5 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h5><p>1、根据预期结果，那ThreadLocal到底是什么？<br>回顾Java内存模型：<br><img src="http://prl6c63q7.bkt.clouddn.com/b19.png" alt><br> 在虚拟机中，堆内存用于存储共享数据（实例对象），堆内存也就是这里说的主内存。</p>
+<h5 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h5><p>1、根据预期结果，那ThreadLocal到底是什么？<br>回顾Java内存模型：<br><img src="http://47.103.200.134/image/b19.png" alt><br> 在虚拟机中，堆内存用于存储共享数据（实例对象），堆内存也就是这里说的主内存。</p>
 <p> 每个线程将会在堆内存中开辟一块空间叫做线程的工作内存，附带一块缓存区用于存储共享数据副本。那么，共享数据在堆内存当中，线程通信就是通过主内存为中介，线程在本地内存读并且操作完共享变量操作完毕以后，把值写入主内存。</p>
 <pre><code>1. ThreadLocal被称为线程局部变量，说白了，他就是线程工作内存的一小块内存，用于存储数据。
 2. 那么，ThreadLocal.set()、ThreadLocal.get()方法，就相当于把数据存储于线程本地，取也是在本地内存读取。就不会像synchronized需要频繁的修改主内存的数据，再把数据复制到工作内存，也大大提高访问效率。
@@ -689,16 +689,16 @@
 <p>那按你这么说，既然JVM有保障了，还有什么内存泄漏可言？<br>ThreadLocalMap使用ThreadLocal对象作为弱引用，当垃圾回收的时候，ThreadLocalMap中Key将会被回收，也就是将Key设置为null的Entry。<strong><em>如果线程迟迟无法结束，也就是ThreadLocal对象将一直不会回收，回顾到上面存在很多线程+TheradLocal，那么也将导致内存泄漏。(内存泄露的重点)</em></strong></p>
 <p>其实，在ThreadLocal中，当调用remove、get、set方法的时候，会清除为null的弱引用，也就是回收ThreadLocal。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal提供一个线程（Thread）局部变量，访问到某个变量的每一个线程都拥有自己的局部变量。说白了，ThreadLocal就是想在多线程环境下去保证成员变量的安全。</span><br></pre></td></tr></table></figure>
-<h5 id="ThreadLocal提供的方法"><a href="#ThreadLocal提供的方法" class="headerlink" title="ThreadLocal提供的方法"></a>ThreadLocal提供的方法</h5><p><img src="http://prl6c63q7.bkt.clouddn.com/b20.png" alt><br>ThreadLocal API<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对于ThreadLocal而言，常用的方法，就是get/set/initialValue方法。</span><br></pre></td></tr></table></figure></p>
-<h5 id="我们先来看一个例子"><a href="#我们先来看一个例子" class="headerlink" title="我们先来看一个例子"></a>我们先来看一个例子</h5><p><img src="http://prl6c63q7.bkt.clouddn.com/b21.png" alt><br><strong><em>运行结果</em></strong><br><img src="http://prl6c63q7.bkt.clouddn.com/b22.png" alt><br>是你想象中的结果么？<br><strong><em>很显然，在这里，并没有通过ThreadLocal达到线程隔离的机制，可是ThreadLocal不是保证线程安全的么？这是什么鬼？</em></strong><br><strong><em>虽然，ThreadLocal让访问某个变量的线程都拥有自己的局部变量，但是如果这个局部变量都指向同一个对象呢？这个时候ThreadLocal就失效了。仔细观察下图中的代码，你会发现，threadLocal在初始化时返回的都是同一个对象a！</em></strong></p>
-<h4 id="看一看ThreadLocal源码"><a href="#看一看ThreadLocal源码" class="headerlink" title="看一看ThreadLocal源码"></a>看一看ThreadLocal源码</h4><p>我们直接看最常用的set操作：<br><img src="http://prl6c63q7.bkt.clouddn.com/b23.png" alt><br>set<br><img src="http://prl6c63q7.bkt.clouddn.com/b24.png" alt><br>线程局部变量<br><img src="http://prl6c63q7.bkt.clouddn.com/b25.png" alt><br>createMap</p>
+<h5 id="ThreadLocal提供的方法"><a href="#ThreadLocal提供的方法" class="headerlink" title="ThreadLocal提供的方法"></a>ThreadLocal提供的方法</h5><p><img src="http://47.103.200.134/image/b20.png" alt><br>ThreadLocal API<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对于ThreadLocal而言，常用的方法，就是get/set/initialValue方法。</span><br></pre></td></tr></table></figure></p>
+<h5 id="我们先来看一个例子"><a href="#我们先来看一个例子" class="headerlink" title="我们先来看一个例子"></a>我们先来看一个例子</h5><p><img src="http://47.103.200.134/image/b21.png" alt><br><strong><em>运行结果</em></strong><br><img src="http://47.103.200.134/image/b22.png" alt><br>是你想象中的结果么？<br><strong><em>很显然，在这里，并没有通过ThreadLocal达到线程隔离的机制，可是ThreadLocal不是保证线程安全的么？这是什么鬼？</em></strong><br><strong><em>虽然，ThreadLocal让访问某个变量的线程都拥有自己的局部变量，但是如果这个局部变量都指向同一个对象呢？这个时候ThreadLocal就失效了。仔细观察下图中的代码，你会发现，threadLocal在初始化时返回的都是同一个对象a！</em></strong></p>
+<h4 id="看一看ThreadLocal源码"><a href="#看一看ThreadLocal源码" class="headerlink" title="看一看ThreadLocal源码"></a>看一看ThreadLocal源码</h4><p>我们直接看最常用的set操作：<br><img src="http://47.103.200.134/image/b23.png" alt><br>set<br><img src="http://47.103.200.134/image/b24.png" alt><br>线程局部变量<br><img src="http://47.103.200.134/image/b25.png" alt><br>createMap</p>
 <p>你会看到，set需要首先获得当前线程对象Thread；</p>
 <p>然后取出当前线程对象的成员变量ThreadLocalMap；</p>
 <p>如果ThreadLocalMap存在，那么进行KEY/VALUE设置，KEY就是ThreadLocal；</p>
 <p>如果ThreadLocalMap没有，那么创建一个；</p>
 <p>说白了，当前线程中存在一个Map变量，KEY是ThreadLocal，VALUE是你设置的值。</p>
-<p>看一下get操作：<br><img src="http://prl6c63q7.bkt.clouddn.com/b26.png" alt><br>get<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这里其实揭示了ThreadLocalMap里面的数据存储结构，从上面的代码来看，ThreadLocalMap中存放的就是Entry，Entry的KEY就是ThreadLocal，VALUE就是值</span><br></pre></td></tr></table></figure></p>
-<h5 id="ThreadLocalMap-Entry："><a href="#ThreadLocalMap-Entry：" class="headerlink" title="ThreadLocalMap.Entry："></a>ThreadLocalMap.Entry：</h5><p><img src="http://prl6c63q7.bkt.clouddn.com/b27.png" alt><br>弱引用？<br><strong><em>在JAVA里面，存在强引用、弱引用、软引用、虚引用。这里主要谈一下强引用和弱引用。</em></strong><br>强引用，就不必说了，类似于：</p>
+<p>看一下get操作：<br><img src="http://47.103.200.134/image/b26.png" alt><br>get<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这里其实揭示了ThreadLocalMap里面的数据存储结构，从上面的代码来看，ThreadLocalMap中存放的就是Entry，Entry的KEY就是ThreadLocal，VALUE就是值</span><br></pre></td></tr></table></figure></p>
+<h5 id="ThreadLocalMap-Entry："><a href="#ThreadLocalMap-Entry：" class="headerlink" title="ThreadLocalMap.Entry："></a>ThreadLocalMap.Entry：</h5><p><img src="http://47.103.200.134/image/b27.png" alt><br>弱引用？<br><strong><em>在JAVA里面，存在强引用、弱引用、软引用、虚引用。这里主要谈一下强引用和弱引用。</em></strong><br>强引用，就不必说了，类似于：</p>
 <p>A a = new A();</p>
 <p>B b = new B();</p>
 <p>考虑这样的情况：</p>
@@ -706,7 +706,7 @@
 <p>b = null;</p>
 <p>考虑下GC的情况。要知道b被置为null，那么是否意味着一段时间后GC工作可以回收b所分配的内存空间呢？答案是否定的，因为即便b被置为null，但是c仍然持有对b的引用，而且还是强引用，所以GC不会回收b原先所分配的空间！既不能回收利用，又不能使用，这就造成了内存泄露。<br>那么如何处理呢？</p>
 <p>可以c = null;也可以使用弱引用！（WeakReference w = new WeakReference(b);）</p>
-<p>分析到这里，我们可以得到：<br><img src="http://prl6c63q7.bkt.clouddn.com/b28.png" alt><br>内存结构图<br>这里我们思考一个问题：ThreadLocal使用到了弱引用，是否意味着不会存在内存泄露呢？ </p>
+<p>分析到这里，我们可以得到：<br><img src="http://47.103.200.134/image/b28.png" alt><br>内存结构图<br>这里我们思考一个问题：ThreadLocal使用到了弱引用，是否意味着不会存在内存泄露呢？ </p>
 <p>首先来说，如果把ThreadLocal置为null，那么意味着Heap中的ThreadLocal实例不在有强引用指向，只有弱引用存在，因此GC是可以回收这部分空间的，也就是key是可以回收的。但是value却存在一条从Current Thread过来的强引用链。因此只有当Current Thread销毁时，value才能得到释放。</p>
 <p>因此，只要这个线程对象被gc回收，就不会出现内存泄露，但在threadLocal设为null和线程结束这段时间内不会被回收的，就发生了我们认为的内存泄露。最要命的是线程对象不被回收的情况，比如使用线程池的时候，线程结束是不会销毁的，再次使用的，就可能出现内存泄露。</p>
 <p><strong><em>那么如何有效的避免呢？</em></strong></p>

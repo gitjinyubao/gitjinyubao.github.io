@@ -141,14 +141,14 @@
 <meta property="og:site_name" content="JinYuBao">
 <meta property="og:description" content="线程安全性当多个线程访问某个类时，不管运行时环境采用何种调度方式或者这些进程将如何交替执行，并且在主调代码中不需要任何额外的同步或协调，这个类都能表现出正确的行为，那么就称这个类是线程安全的。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/p6.jpg">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b13.png">
-<meta property="og:image" content="http://prl6c63q7.bkt.clouddn.com/b14.png">
-<meta property="og:updated_time" content="2019-05-30T23:50:54.233Z">
+<meta property="og:image" content="http://47.103.200.134/image/p6.jpg">
+<meta property="og:image" content="http://47.103.200.134/image/b13.png">
+<meta property="og:image" content="http://47.103.200.134/image/b14.png">
+<meta property="og:updated_time" content="2019-06-11T04:29:04.526Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发编程之线程安全性、安全发布对象">
 <meta name="twitter:description" content="线程安全性当多个线程访问某个类时，不管运行时环境采用何种调度方式或者这些进程将如何交替执行，并且在主调代码中不需要任何额外的同步或协调，这个类都能表现出正确的行为，那么就称这个类是线程安全的。">
-<meta name="twitter:image" content="http://prl6c63q7.bkt.clouddn.com/p6.jpg">
+<meta name="twitter:image" content="http://47.103.200.134/image/p6.jpg">
 
 
 
@@ -628,7 +628,7 @@
       
 
       
-        <h3 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h3><p><img src="http://prl6c63q7.bkt.clouddn.com/p6.jpg" alt><br>当多个线程访问某个类时，不管运行时环境采用何种调度方式或者这些进程将如何交替执行，并且在主调代码中不需要任何额外的同步或协调，这个类都能表现出正确的行为，那么就称这个类是线程安全的。<br><a id="more"></a><br>线程安全性主要体现：</p>
+        <h3 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h3><p><img src="http://47.103.200.134/image/p6.jpg" alt><br>当多个线程访问某个类时，不管运行时环境采用何种调度方式或者这些进程将如何交替执行，并且在主调代码中不需要任何额外的同步或协调，这个类都能表现出正确的行为，那么就称这个类是线程安全的。<br><a id="more"></a><br>线程安全性主要体现：</p>
 <ol>
 <li>原子性：提供了互斥访问，同一时刻只能有一个线程来对它进行操作</li>
 <li>可见性：一个线程对主内存的修改可以及时的被其他线程观察到</li>
@@ -712,9 +712,9 @@
 <li><p>线程加锁时，将清空工作内存中共享变量的值，从而使用共享变量时需要从主内存中重新读取最新的值（注意：加锁与解锁是同一把锁）</p>
 <h6 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h6><h6 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h6><p>通过加入内存屏障和禁止重排序优化来实现</p>
 </li>
-<li><p>对volatile变量写操作时，会在写操作后加入一条store屏障指令，将本地内存中的共享变量值刷新到主内存中<br><img src="http://prl6c63q7.bkt.clouddn.com/b13.png" alt></p>
+<li><p>对volatile变量写操作时，会在写操作后加入一条store屏障指令，将本地内存中的共享变量值刷新到主内存中<br><img src="http://47.103.200.134/image/b13.png" alt></p>
 </li>
-<li><p>对volatile变量读操作是，会在读操作前加入一条load屏障指令，从主内存中读取共享变量<br><img src="http://prl6c63q7.bkt.clouddn.com/b14.png" alt></p>
+<li><p>对volatile变量读操作是，会在读操作前加入一条load屏障指令，从主内存中读取共享变量<br><img src="http://47.103.200.134/image/b14.png" alt></p>
 <p>通过上面两点，任何时候，不同的线程总能看到该变量的最新值。所有的指令操作都是CPU级别的</p>
 <h6 id="Verification"><a href="#Verification" class="headerlink" title="Verification"></a>Verification</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountExample4</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请求总数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> clientTotal = <span class="number">5000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 同时并发执行的线程数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> threadTotal = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        <span class="keyword">final</span> Semaphore semaphore = <span class="keyword">new</span> Semaphore(threadTotal);</span><br><span class="line">        <span class="keyword">final</span> CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(clientTotal);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; clientTotal ; i++) &#123;</span><br><span class="line">            executorService.execute(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    semaphore.acquire();</span><br><span class="line">                    add();</span><br><span class="line">                    semaphore.release();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    log.error(<span class="string">"exception"</span>, e);</span><br><span class="line">                &#125;</span><br><span class="line">                countDownLatch.countDown();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        countDownLatch.await();</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">        log.info(<span class="string">"count:&#123;&#125;"</span>, count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出结果是线程不安全的。</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
