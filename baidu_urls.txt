@@ -1,5 +1,5 @@
+https://www.zengmanhua.cn/2019/06/14/hexo-保持后台持续运行/
 https://www.zengmanhua.cn/2019/06/14/集群/
 https://www.zengmanhua.cn/2019/06/14/哨兵/
 https://www.zengmanhua.cn/2019/06/14/主从复制/
 https://www.zengmanhua.cn/2019/06/14/持久化/
-https://www.zengmanhua.cn/2019/06/14/redis内存模型/
