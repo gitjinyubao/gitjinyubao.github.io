@@ -133,14 +133,15 @@
 
 
 
-  <meta name="description" content="前言 在上一篇文章中，介绍了Redis的内存模型，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。 本文将先说明上述几种技术分别解决了Redis高可用的什么问题；然后详细介绍Redis的持久化技术，主要是RDB和AOF两种持久化方案；在介绍RDB和AOF方案时，不仅介绍其作用及操作方法，同时介绍持久化实现的一些原理细节及需要注意的问题。最后，介绍">
+  <meta name="description" content="前言 在上一篇文章中，介绍了Redis的内存模型，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。">
 <meta name="keywords" content="redis深入系统学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="持久化">
 <meta property="og:url" content="https://www.zengmanhua.cn/2019/06/14/持久化/index.html">
 <meta property="og:site_name" content="JinYuBao">
-<meta property="og:description" content="前言 在上一篇文章中，介绍了Redis的内存模型，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。 本文将先说明上述几种技术分别解决了Redis高可用的什么问题；然后详细介绍Redis的持久化技术，主要是RDB和AOF两种持久化方案；在介绍RDB和AOF方案时，不仅介绍其作用及操作方法，同时介绍持久化实现的一些原理细节及需要注意的问题。最后，介绍">
+<meta property="og:description" content="前言 在上一篇文章中，介绍了Redis的内存模型，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://47.103.200.134/image/p18.jpg">
 <meta property="og:image" content="http://47.103.200.134/image/e22dc38892da7c0988f95e781065c2d2.png">
 <meta property="og:image" content="http://47.103.200.134/image/5b4e14ee3a58cf851236596b9903a1a9.png">
 <meta property="og:image" content="http://47.103.200.134/image/883b914f81f47ee181633151e5868c97.png">
@@ -163,11 +164,11 @@
 <meta property="og:image" content="http://47.103.200.134/image/70e7dd203c88f9b0a6ccc525ea0c9da2.png">
 <meta property="og:image" content="http://47.103.200.134/image/bd73c61b0fb58d0a9bd90c78e28092f3.png">
 <meta property="og:image" content="http://47.103.200.134/image/467ba0b6fb809bc69d873f0a600bea6b.png">
-<meta property="og:updated_time" content="2019-06-14T08:17:06.376Z">
+<meta property="og:updated_time" content="2019-06-14T08:25:49.935Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="持久化">
-<meta name="twitter:description" content="前言 在上一篇文章中，介绍了Redis的内存模型，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。 本文将先说明上述几种技术分别解决了Redis高可用的什么问题；然后详细介绍Redis的持久化技术，主要是RDB和AOF两种持久化方案；在介绍RDB和AOF方案时，不仅介绍其作用及操作方法，同时介绍持久化实现的一些原理细节及需要注意的问题。最后，介绍">
-<meta name="twitter:image" content="http://47.103.200.134/image/e22dc38892da7c0988f95e781065c2d2.png">
+<meta name="twitter:description" content="前言 在上一篇文章中，介绍了Redis的内存模型，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。">
+<meta name="twitter:image" content="http://47.103.200.134/image/p18.jpg">
 
 
 
@@ -647,8 +648,8 @@
       
 
       
-        <p><strong>前言</strong></p>
-<p>在上一篇文章中，介绍了<a href>Redis的内存模型</a>，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。</p>
+        <p><img src="http://47.103.200.134/image/p18.jpg" alt><br><strong>前言</strong></p>
+<p>在上一篇文章中，介绍了<a href>Redis的内存模型</a>，从这篇文章开始，将依次介绍Redis高可用相关的知识——持久化、复制(及读写分离)、哨兵、以及集群。<br><a id="more"></a></p>
 <p>本文将先说明上述几种技术分别解决了Redis高可用的什么问题；然后详细介绍Redis的持久化技术，主要是RDB和AOF两种持久化方案；在介绍RDB和AOF方案时，不仅介绍其作用及操作方法，同时介绍持久化实现的一些原理细节及需要注意的问题。最后，介绍在实际使用中，持久化方案的选择，以及经常遇到的问题等。</p>
 <p><strong>目录</strong></p>
 <p><em>一、Redis高可用概述</em></p>

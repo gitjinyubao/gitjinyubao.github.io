@@ -133,14 +133,15 @@
 
 
 
-  <meta name="description" content="前言在 深入学习Redis（3）：主从复制 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。 文章主要内容如下：首先介绍哨兵的作用和架构；然后讲述哨兵系统的部署方法，以及通过客户端访问哨兵系统的方法；然后简要说明哨兵实">
+  <meta name="description" content="前言在 深入学习Redis（3）：主从复制 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。">
 <meta name="keywords" content="redis深入系统学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="哨兵">
 <meta property="og:url" content="https://www.zengmanhua.cn/2019/06/14/哨兵/index.html">
 <meta property="og:site_name" content="JinYuBao">
-<meta property="og:description" content="前言在 深入学习Redis（3）：主从复制 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。 文章主要内容如下：首先介绍哨兵的作用和架构；然后讲述哨兵系统的部署方法，以及通过客户端访问哨兵系统的方法；然后简要说明哨兵实">
+<meta property="og:description" content="前言在 深入学习Redis（3）：主从复制 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://47.103.200.134/image/p16.jpg">
 <meta property="og:image" content="http://47.103.200.134/image/79f920fcf9cf0fdb62b50c3f5a6b5d5c.png">
 <meta property="og:image" content="http://47.103.200.134/image/4e6afd90c6aae93cd725279351071554.png">
 <meta property="og:image" content="http://47.103.200.134/image/42bdf3cb1224bf7ad64e56b06bb93f52.png">
@@ -152,11 +153,11 @@
 <meta property="og:image" content="http://47.103.200.134/image/90ba6790ecac35b5a59b847fbdbc479c.png">
 <meta property="og:image" content="http://47.103.200.134/image/7ce7624d07e42ab769b12cb9ee9b7d3a.png">
 <meta property="og:image" content="http://47.103.200.134/image/10c00e6014dc9ff147d3fb0ded3ebfb8.png">
-<meta property="og:updated_time" content="2019-06-14T08:14:56.821Z">
+<meta property="og:updated_time" content="2019-06-14T08:26:22.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="哨兵">
-<meta name="twitter:description" content="前言在 深入学习Redis（3）：主从复制 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。 文章主要内容如下：首先介绍哨兵的作用和架构；然后讲述哨兵系统的部署方法，以及通过客户端访问哨兵系统的方法；然后简要说明哨兵实">
-<meta name="twitter:image" content="http://47.103.200.134/image/79f920fcf9cf0fdb62b50c3f5a6b5d5c.png">
+<meta name="twitter:description" content="前言在 深入学习Redis（3）：主从复制 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。">
+<meta name="twitter:image" content="http://47.103.200.134/image/p16.jpg">
 
 
 
@@ -636,7 +637,8 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 <a href>深入学习Redis（3）：主从复制</a> 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。</p>
+        <p><img src="http://47.103.200.134/image/p16.jpg" alt></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 <a href>深入学习Redis（3）：主从复制</a> 中曾提到，Redis主从复制的作用有数据热备、负载均衡、故障恢复等；但主从复制存在的一个问题是故障恢复无法自动化。本文将要介绍的哨兵，它基于Redis主从复制，主要作用便是解决主节点故障恢复的自动化问题，进一步提高系统的高可用性。<br><a id="more"></a></p>
 <p>文章主要内容如下：首先介绍哨兵的作用和架构；然后讲述哨兵系统的部署方法，以及通过客户端访问哨兵系统的方法；然后简要说明哨兵实现的基本原理；最后给出关于哨兵实践的一些建议。文章内容基于Redis<br>3.0版本。</p>
 <h1 id="一、作用和架构"><a href="#一、作用和架构" class="headerlink" title="一、作用和架构"></a>一、作用和架构</h1><ol>
 <li>作用</li>
